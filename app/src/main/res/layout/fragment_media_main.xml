@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/fragment_media_main_padding_left"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/fragment_main_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_text_size"
+                android:text="@string/media"
+                />
+            <TextView
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:id="@+id/text"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subtitle_text_size"
+                android:text="Popular"
+                />
+            <TextView
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/subtitle_text_size"
+                android:text="@string/in_cinema"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_popular"
+                android:orientation="horizontal"
+                app:reverseLayout="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

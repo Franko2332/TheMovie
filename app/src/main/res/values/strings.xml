@@ -3,4 +3,8 @@
     <string name="main">Main</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="media">Media</string>
+    <string name="in_cinema">In cinema</string>
+    <string name="unknown_user">Unknown user</string>
+    <string name="films_serials_persons">Films, serials, persons</string>
 </resources>

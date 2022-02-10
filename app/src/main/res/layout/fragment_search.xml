@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<com.google.android.material.textfield.TextInputLayout
+    android:layout_marginTop="@dimen/earch_text_input_margin_top"
+    android:layout_marginStart="@dimen/search_text_input_margin_start"
+    android:layout_marginEnd="@dimen/search_text_input_margin_end"
+    app:startIconDrawable="@drawable/ic_search"
+    android:hint="@string/films_serials_persons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
