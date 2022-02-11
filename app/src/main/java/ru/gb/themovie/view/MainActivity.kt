@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.navigation.NavigationBarMenu
 import com.google.android.material.navigation.NavigationBarView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
 
-class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener, CallbackToActivityController {
+class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
+    CallbackToActivityController {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         fragmentsMap.put(Const.CONNECTION_ERROR_FRAGMENT, ConnectionErrorFragment())
         fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_holder, fragmentsMap.get(Const.MAIN_FRAGMENT)!!, null).commit()
+            .add(R.id.fragment_holder, fragmentsMap.get(Const.MAIN_FRAGMENT)!!, null).commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -46,38 +46,47 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
     private fun setMainFragment() {
 
-        fragmentManager.beginTransaction().replace(R.id.fragment_holder,
-                fragmentsMap.get(Const.MAIN_FRAGMENT)!!, Const.MAIN_FRAGMENT)
+            fragmentManager.beginTransaction().replace(
+                R.id.fragment_holder,
+                fragmentsMap.get(Const.MAIN_FRAGMENT)!!, Const.MAIN_FRAGMENT
+            )
                 .addToBackStack(null)
                 .commit()
     }
 
     private fun setSearchFragment() {
-        fragmentManager.beginTransaction().replace(R.id.fragment_holder,
-                fragmentsMap.get(Const.SEARCH_FRAGMENT)!!, null)
-                .addToBackStack(null)
-                .commit()
+        fragmentManager.beginTransaction().replace(
+            R.id.fragment_holder,
+            fragmentsMap.get(Const.SEARCH_FRAGMENT)!!, null
+        )
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun setProfileFragment() {
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_holder,
-                        fragmentsMap.get(Const.PROFILE_FRAGMENT)!!, null)
-                .addToBackStack(null)
-                .commit()
+            .replace(
+                R.id.fragment_holder,
+                fragmentsMap.get(Const.PROFILE_FRAGMENT)!!, null
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun setConnectionErrorFragment() {
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_holder,
-                        fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!, null)
-                .addToBackStack(null)
-                .commit()
+            .remove(fragmentsMap.get(Const.MAIN_FRAGMENT)!!)
+            .replace(
+                R.id.fragment_holder,
+                fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!, Const.CONNECTION_ERROR_FRAGMENT
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun setFragmentAfterRefreshConnection() {
-        fragmentManager.beginTransaction()
-                .remove(fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!).commit()
+//        fragmentManager.beginTransaction()
+//            .remove(fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!).commit()
         setMainFragment()
     }
 

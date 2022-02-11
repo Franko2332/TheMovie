@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,7 @@ class MainFragment : Fragment(), Serializable {
     private lateinit var viewModel : MainViewModel
 
     override fun onAttach(context: Context) {
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+       viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         viewModel.initRepo(context)
         controller = requireActivity() as MainActivity
         super.onAttach(context)
@@ -57,7 +58,10 @@ class MainFragment : Fragment(), Serializable {
 
     private fun render(it: AppState) {
         when(it){
-            is AppState.Success -> adapter.setData(it.dataSet)
+            is AppState.Success -> {
+                adapter.setData(it.dataSet)
+                //Log.e("fd", "render")
+            }
             is AppState.Error -> controller.setConnectionErrorFragment()
         }
     }
