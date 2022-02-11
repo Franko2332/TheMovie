@@ -15,10 +15,17 @@ class PopularCinemaAdapter() :RecyclerView.Adapter<PopularCinemaAdapter.CinemaHo
         val imageView: ImageView = view.findViewById(R.id.image_view_popular_movie)
         }
 
+    init {
+        dataSet = ArrayList<Movie>()
+    }
 
     public fun setData(dataSets: ArrayList<Movie>){
         dataSet = dataSets
         notifyDataSetChanged()
+    }
+
+    public fun getData(): ArrayList<Movie>{
+        return dataSet
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CinemaHolder {

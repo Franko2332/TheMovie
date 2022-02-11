@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
-import ru.gb.themovie.model.Movie
-import ru.gb.themovie.model.Repository
-import ru.gb.themovie.model.RepositoryImpl
+import ru.gb.themovie.model.*
 import ru.gb.themovie.viewmodel.MainViewModel
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), Serializable {
     private var _binding : FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var controller: CallbackToActivityController
     private lateinit var recycler : RecyclerView
     private val adapter: PopularCinemaAdapter = PopularCinemaAdapter()
     private lateinit var viewModel : MainViewModel
@@ -30,6 +30,7 @@ class MainFragment : Fragment() {
     override fun onAttach(context: Context) {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.initRepo(context)
+        controller = requireActivity() as MainActivity
         super.onAttach(context)
     }
 
@@ -50,13 +51,19 @@ class MainFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false)
         recycler.adapter = adapter
-        val observer = Observer<ArrayList<Movie>> { render(it) }
+        val observer = Observer<AppState> { render(it) }
         viewModel.getData().observe(viewLifecycleOwner, observer)
     }
 
-    private fun render(it: ArrayList<Movie>?) {
-        if (it != null) {
-            adapter.setData(it)
+    private fun render(it: AppState) {
+        when(it){
+            is AppState.Success -> adapter.setData(it.dataSet)
+            is AppState.Error -> controller.setConnectionErrorFragment()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

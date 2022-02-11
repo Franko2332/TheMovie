@@ -7,4 +7,7 @@
     <string name="in_cinema">In cinema</string>
     <string name="unknown_user">Unknown user</string>
     <string name="films_serials_persons">Films, serials, persons</string>
+    <string name="no_server_connection">No server connection</string>
+    <string name="check_your_connection">check your connection</string>
+    <string name="refresh">Refresh</string>
 </resources>

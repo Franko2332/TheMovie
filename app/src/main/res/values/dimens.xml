@@ -4,6 +4,8 @@
     <dimen name="item_popular_movie_layout_width">120dp</dimen>
     <dimen name="item_popular_movie_layout_height">180dp</dimen>
     <dimen name="item_popular_movie_corner_radius">8dp</dimen>
+    <dimen name="profile_card_view_corner_radius">20dp</dimen>
+    <dimen name="profile_card_view_elevation">8dp</dimen>
     <dimen name="item_popular_movie_card_elevation">8dp</dimen>
     <dimen name="item_popular_movie_layout_margin">5dp</dimen>
     <dimen name="fragment_media_main_padding_left">15dp</dimen>
