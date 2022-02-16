@@ -9,6 +9,7 @@ package ru.gb.themovie.model
             val DETAIL_MOVIE_FRAGMENT = "DETAIL_MOVIE_FRAGMENT"
             val PARCELABLE_MOVIE = "PARCELABLE_MOVIE"
             val MOVIE_ID = "MOVIE_ID"
+            val SERIAL_ID = "SERIAL_ID"
         }
 
 }

@@ -18,22 +18,23 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <ImageView
-                android:fitsSystemWindows="true"
-                app:layout_scrollFlags="scroll|enterAlways"
                 android:id="@+id/fragment_detail_movie_icon_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
 
                 app:layout_collapseMode="parallax"
-                android:scaleType="centerCrop" />
+                app:layout_scrollFlags="scroll|enterAlways" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,33 +44,37 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:ignore="ExtraText">
         >
+
         <LinearLayout
-            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
             android:orientation="vertical"
             tools:ignore="RtlSymmetry">
+
             <TextView
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/text_view_movie_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="@dimen/title_text_size" />
+
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/text_view_movie_short_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="@dimen/subtitle_text_size" />
+
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/text_view_movie_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="@dimen/movie_description_text_size" />
 

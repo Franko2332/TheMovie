@@ -25,8 +25,10 @@ class MainFragment : Fragment(), Serializable, PopularCinemaAdapter.onItemClickL
     private var _binding : FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var controller: CallbackToActivityController
-    private lateinit var recycler : RecyclerView
-    private val adapter: PopularCinemaAdapter = PopularCinemaAdapter()
+    private lateinit var recyclerInCinema : RecyclerView
+    private lateinit var recyclerOnTv : RecyclerView
+    private val adapterInCinema: PopularCinemaAdapter = PopularCinemaAdapter()
+    private val adapterForTvMovie: PopularCinemaAdapter = PopularCinemaAdapter()
     private lateinit var viewModel : MainViewModel
 
     override fun onAttach(context: Context) {
@@ -49,12 +51,16 @@ class MainFragment : Fragment(), Serializable, PopularCinemaAdapter.onItemClickL
     }
 
     private fun init() {
-        recycler = binding.recyclerPopularInCinema
-        recycler.layoutManager = LinearLayoutManager(requireContext(),
+        recyclerInCinema = binding.recyclerPopularInCinema
+        recyclerOnTv = binding.recyclerPopularOnTv
+        recyclerInCinema.layoutManager = LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false)
-        adapter.setOnItemClickListener(this)
-        recycler.adapter = adapter
-
+        recyclerOnTv.layoutManager = LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL, false)
+        adapterInCinema.setOnItemClickListener(this)
+        adapterForTvMovie.setOnItemClickListener(this)
+        recyclerInCinema.adapter = adapterInCinema
+        recyclerOnTv.adapter = adapterForTvMovie
         val observer = Observer<AppState> { render(it) }
         viewModel.getData().observe(viewLifecycleOwner, observer)
     }
@@ -62,7 +68,8 @@ class MainFragment : Fragment(), Serializable, PopularCinemaAdapter.onItemClickL
     private fun render(it: AppState) {
         when(it){
             is AppState.Success -> {
-                adapter.setData(it.dataSet)
+                adapterInCinema.setData(it.dataSet)
+                adapterForTvMovie.setData(it.dataSetSerials)
                 //Log.e("fd", "render")
             }
             is AppState.Error -> controller.setConnectionErrorFragment()
@@ -76,7 +83,7 @@ class MainFragment : Fragment(), Serializable, PopularCinemaAdapter.onItemClickL
 
     override fun movieItemOnClick(movieId: Int): Boolean {
         val manager = requireActivity().supportFragmentManager
-        manager.beginTransaction().hide(this).add(R.id.fragment_holder,
+        manager.beginTransaction().replace(R.id.fragment_holder,
                 DetailMovieFragment.getiInstance(movieId), Const.DETAIL_MOVIE_FRAGMENT)
                 .addToBackStack(null).commit()
         return true
