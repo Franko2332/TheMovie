@@ -6,6 +6,13 @@ sealed class AppState {
             dataSet = repo.getMoviesFromLocalStorage()
         }
     }
+    data class SuccessDetailMovie(var movieId : Int, val repo: Repository) : AppState(){
+        var movie: Movie? = null
+        init {
+            repo.getMoviesFromLocalStorage()
+            movie = repo.getMovieById(movieId)
+        }
+    }
     class Error() : AppState()
     object Loading : AppState()
 }
