@@ -1,0 +1,20 @@
+<resources>
+    <dimen name="title_text_size">40sp</dimen>
+    <dimen name="subtitle_text_size">30sp</dimen>
+    <dimen name="item_popular_movie_layout_width">120dp</dimen>
+    <dimen name="item_popular_movie_layout_height">180dp</dimen>
+    <dimen name="item_popular_movie_corner_radius">8dp</dimen>
+    <dimen name="item_popular_movie_rate_corner_radius">3dp</dimen>
+    <dimen name="item_popular_movie_rate_margin_top">10dp</dimen>
+    <dimen name="item_popular_movie_rate_padding_start">4dp</dimen>
+    <dimen name="item_popular_movie_rate_margin_start">3dp</dimen>
+    <dimen name="profile_card_view_corner_radius">20dp</dimen>
+    <dimen name="profile_card_view_elevation">8dp</dimen>
+    <dimen name="item_popular_movie_card_elevation">8dp</dimen>
+    <dimen name="item_popular_movie_layout_margin">5dp</dimen>
+    <dimen name="fragment_media_main_padding_left">15dp</dimen>
+    <dimen name="search_text_input_margin_start">8dp</dimen>
+    <dimen name="search_text_input_margin_end">8dp</dimen>
+    <dimen name="earch_text_input_margin_top">8dp</dimen>
+    <dimen name="movie_description_text_size">20sp</dimen>
+</resources>
