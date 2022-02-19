@@ -45,13 +45,12 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     }
 
     private fun setMainFragment() {
-
             fragmentManager.beginTransaction().replace(
-                R.id.fragment_holder,
-                fragmentsMap.get(Const.MAIN_FRAGMENT)!!, Const.MAIN_FRAGMENT
+                    R.id.fragment_holder,
+                    fragmentsMap.get(Const.MAIN_FRAGMENT)!!, Const.MAIN_FRAGMENT
             )
-                .addToBackStack(null)
-                .commit()
+                    .addToBackStack(null)
+                    .commit()
     }
 
     private fun setSearchFragment() {
