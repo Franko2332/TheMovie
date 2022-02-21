@@ -1,6 +1,6 @@
 package ru.gb.themovie.view
 
-interface CallbackToActivityController {
+interface ConnectionErrorFragmentCallback {
     public fun setConnectionErrorFragment()
     public fun setFragmentAfterRefreshConnection()
 }

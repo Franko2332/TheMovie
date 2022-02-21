@@ -1,7 +1,6 @@
 package ru.gb.themovie.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +13,17 @@ import ru.gb.themovie.viewmodel.MainViewModel
 
 
 class ConnectionErrorFragment : Fragment() {
-    private lateinit var controller: CallbackToActivityController
-    private  lateinit var viewModel : MainViewModel
+    private lateinit var controller: ConnectionErrorFragmentCallback
+    private  val viewModel : MainViewModel by lazy { ViewModelProvider(requireActivity()).get(MainViewModel::class.java) }
     private var _binding : FragmentConnectionErrorBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         controller = requireActivity() as MainActivity
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentConnectionErrorBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -38,7 +40,6 @@ class ConnectionErrorFragment : Fragment() {
         when(it){
             is AppState.Success -> {
                 controller.setFragmentAfterRefreshConnection()
-                Log.e("fd", "render")
             }
         }
     }

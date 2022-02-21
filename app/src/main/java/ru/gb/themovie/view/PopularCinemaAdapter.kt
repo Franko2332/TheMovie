@@ -11,7 +11,7 @@ import ru.gb.themovie.R
 import ru.gb.themovie.model.Movie
 
 class PopularCinemaAdapter() : RecyclerView.Adapter<PopularCinemaAdapter.CinemaHolder>() {
-    private lateinit var dataSet: ArrayList<Movie>
+    private var dataSet: ArrayList<Movie> = ArrayList<Movie>()
     private var listener: onItemClickListener? = null
 
     interface onItemClickListener {
@@ -23,10 +23,6 @@ class PopularCinemaAdapter() : RecyclerView.Adapter<PopularCinemaAdapter.CinemaH
         val textView: TextView = view.findViewById(R.id.text_view_movie_rating)
     }
 
-    init {
-        dataSet = ArrayList<Movie>()
-    }
-
     public fun setData(dataSets: ArrayList<Movie>) {
         dataSet = dataSets
         notifyDataSetChanged()
@@ -36,44 +32,46 @@ class PopularCinemaAdapter() : RecyclerView.Adapter<PopularCinemaAdapter.CinemaH
         listener = _listener
     }
 
-    public fun getData(): ArrayList<Movie> {
-        return dataSet
-    }
+    public fun getData(): ArrayList<Movie> = dataSet
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CinemaHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_popular_movie,
-            parent, false
+                R.layout.item_popular_movie,
+                parent, false
         )
         return CinemaHolder(view)
     }
 
     override fun onBindViewHolder(holder: CinemaHolder, position: Int) {
-        holder.imageView.setBackgroundDrawable(dataSet.get(position).movieIcon)
-        holder.textView.setText(dataSet.get(position).rating.toString())
-        if (dataSet[position].rating > 70) {
-            holder.textView.setBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.green
+        holder.apply {
+            imageView.setBackgroundDrawable(dataSet.get(position).movieIcon)
+            textView.text = dataSet.get(position).rating.toString()
+        }
+
+        when {
+            dataSet[position].rating > 70 -> {
+                holder.textView.setBackgroundColor(ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.green
                 )
-            )
-        } else if (dataSet[position].rating <= 70 && dataSet.get(position).rating >= 60) {
-            holder.textView.setBackgroundColor(
-                ContextCompat.getColor(
-                    holder.itemView.context,
-                    R.color.orange
                 )
+            }
+            dataSet[position].rating <= 70 && dataSet.get(position).rating >= 60 -> {
+                holder.textView.setBackgroundColor(ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.orange
+                ))
+            }
+            else -> holder.textView.setBackgroundColor(ContextCompat.getColor(
+                    holder.itemView.context,
+                    R.color.gray
             )
-        } else holder.textView.setBackgroundColor(
-            ContextCompat.getColor(
-                holder.itemView.context,
-                R.color.gray
             )
-        )
+        }
         if (listener != null) {
             holder.imageView.setOnClickListener {
-                listener!!.movieItemOnClick(dataSet.get(position).movieId) }
+                listener!!.movieItemOnClick(dataSet.get(position).movieId)
+            }
         }
     }
 

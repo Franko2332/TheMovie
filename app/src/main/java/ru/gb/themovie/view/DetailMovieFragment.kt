@@ -10,29 +10,31 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.item_popular_movie.view.*
+import kotlinx.coroutines.launch
 import ru.gb.themovie.databinding.FragmentMovieDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.viewmodel.DetailMovieViewModel
 
 class DetailMovieFragment: Fragment() {
-    private lateinit var _binding: FragmentMovieDetailBinding
+    private var _binding: FragmentMovieDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: DetailMovieViewModel
+    private val observer: Observer<AppState> by lazy { Observer<AppState>{state -> render(state) }  }
+    private val viewModel: DetailMovieViewModel by lazy{
+       ViewModelProvider(requireActivity()).get(DetailMovieViewModel::class.java)
+    }
 
     companion object{
         fun getiInstance(movieID: Int): DetailMovieFragment{
-            val detailMovieFragment: DetailMovieFragment = DetailMovieFragment();
-            val bundle: Bundle = Bundle()
-            bundle.putInt(Const.MOVIE_ID, movieID)
-            detailMovieFragment.arguments = bundle
+            val bundle = Bundle().apply { this.putInt(Const.MOVIE_ID, movieID) }
+            val detailMovieFragment= DetailMovieFragment().apply { arguments = bundle }
             return detailMovieFragment
         }
     }
 
     override fun onAttach(context: Context) {
-        viewModel = ViewModelProvider(requireActivity()).get(DetailMovieViewModel::class.java)
         viewModel.initRepo(context)
         super.onAttach(context)
     }
@@ -40,27 +42,38 @@ class DetailMovieFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
+        val id = arguments?.getInt(Const.MOVIE_ID)
+        id?.let {
+            Log.e("Move_id", id.toString())
+            viewModel.getMovie(it).observe(viewLifecycleOwner, observer)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val id = arguments?.getInt(Const.MOVIE_ID)
-        if (id!=null){
-            Log.e("Move_id", id.toString())
-            val observer = Observer<AppState>{render(it) }
-            viewModel.getMovie(id).observe(viewLifecycleOwner, observer)
-        }
+
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e(Const.DETAIL_MOVIE_FRAGMENT, "destroy")
+        _binding = null
+        viewModel
+    }
+
     @SuppressLint("SetTextI18n")
-    private fun render(it: AppState) {
-        when(it){
-            is AppState.SuccessDetailMovie -> {
-                binding.fragmentDetailMovieIconImageView.setBackgroundDrawable(it.movie!!.movieIcon)
-                binding.textViewMovieName.text = it.movie!!.movieName
-                binding.textViewMovieShortDescription.text = it.movie!!.movieGenr+"-"+it.movie!!.movieDuration
-                binding.textViewMovieDescription.text = it.movie!!.movieDescription
+    private fun render(state: AppState) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            when(state){
+                is AppState.SuccessDetailMovie -> {
+                    state.movie?.let {
+                        binding.fragmentDetailMovieIconImageView.setBackgroundDrawable(it.movieIcon)
+                        binding.textViewMovieName.text = it.movieName
+                        binding.textViewMovieShortDescription.text = it.movieGenr+"-"+it.movieDuration
+                        binding.textViewMovieDescription.text = it.movieDescription
+                    }
+                }
             }
         }
     }
