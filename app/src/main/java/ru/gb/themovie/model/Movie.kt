@@ -2,7 +2,7 @@ package ru.gb.themovie.model
 
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import kotlinx.android.parcel.RawValue
 
 
@@ -35,5 +35,7 @@ data class Movie(val movieIcon: @RawValue Drawable,
         movieDescription = _movieDescription
         movieDuration = _movieDuration
     }
+
+    public fun getShortDescription(): String  = movieGenr + "-" +movieDuration
 
 }

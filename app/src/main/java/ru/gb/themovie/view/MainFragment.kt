@@ -10,21 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.gb.themovie.R
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
 import ru.gb.themovie.model.*
 import ru.gb.themovie.viewmodel.MainViewModel
 import java.io.Serializable
 
-class MainFragment : Fragment(), Serializable, PopularCinemaAdapter.onItemClickListener {
+class MainFragment : Fragment(), Serializable, PopularMovieAdapter.onItemClickListener {
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var errorFragmentCallbackController: ConnectionErrorFragmentCallback
     private lateinit var detailMovieFragmentCallbackController: DetailMovieFragmentCallback
     private lateinit var recyclerInCinema: RecyclerView
     private lateinit var recyclerOnTv: RecyclerView
-    private val adapterInCinema: PopularCinemaAdapter = PopularCinemaAdapter()
-    private val adapterForTvMovie: PopularCinemaAdapter = PopularCinemaAdapter()
+    private val adapterInCinema: PopularMovieAdapter = PopularMovieAdapter()
+    private val adapterForTvMovie: PopularMovieAdapter = PopularMovieAdapter()
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(requireActivity())
                 .get(MainViewModel::class.java)

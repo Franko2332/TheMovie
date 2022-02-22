@@ -10,15 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.R
 import ru.gb.themovie.model.Movie
 
-class PopularCinemaAdapter() : RecyclerView.Adapter<PopularCinemaAdapter.CinemaHolder>() {
+class PopularMovieAdapter() : RecyclerView.Adapter<PopularMovieAdapter.CinemaHolder>() {
     private var dataSet: ArrayList<Movie> = ArrayList<Movie>()
     private var listener: onItemClickListener? = null
+    private val viewTypeToLayoutId: MutableMap<Int, Int> = mutableMapOf()
 
     interface onItemClickListener {
         fun movieItemOnClick(movieId: Int): Boolean
     }
 
     class CinemaHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         val imageView: ImageView = view.findViewById(R.id.image_view_popular_movie)
         val textView: TextView = view.findViewById(R.id.text_view_movie_rating)
     }

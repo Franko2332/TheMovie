@@ -10,8 +10,9 @@ import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
 
+
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
-        ConnectionErrorFragmentCallback, DetailMovieFragmentCallback {
+    ConnectionErrorFragmentCallback, DetailMovieFragmentCallback {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         fragmentManager = supportFragmentManager
         fragmentsMap.get(Const.MAIN_FRAGMENT)?.let {
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_holder, it, null).commit()
+                .add(R.id.fragment_holder, it, null).commit()
         }
     }
 
@@ -51,54 +52,57 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     private fun setMainFragment() {
         fragmentsMap.get(Const.MAIN_FRAGMENT)?.let {
             fragmentManager.beginTransaction().replace(
-                    R.id.fragment_holder,
-                    it, Const.MAIN_FRAGMENT
+                R.id.fragment_holder,
+                it, Const.MAIN_FRAGMENT
             )
-                    .addToBackStack(null)
-                    .commit()
+                .addToBackStack(null)
+                .commit()
         }
     }
 
     private fun setSearchFragment() {
         fragmentsMap.get(Const.SEARCH_FRAGMENT)?.let {
             fragmentManager.beginTransaction().replace(
-                    R.id.fragment_holder,
-                    it, null
+                R.id.fragment_holder,
+                it, null
             )
-                    .addToBackStack(null)
-                    .commit()
+                .addToBackStack(null)
+                .commit()
         }
     }
 
     private fun setProfileFragment() {
         fragmentsMap.get(Const.PROFILE_FRAGMENT)?.let {
             fragmentManager.beginTransaction()
-                    .replace(
-                            R.id.fragment_holder,
-                            it, null
-                    )
-                    .addToBackStack(null)
-                    .commit()
+                .replace(
+                    R.id.fragment_holder,
+                    it, null
+                )
+                .addToBackStack(null)
+                .commit()
         }
     }
 
     override fun setDetailFragment(id: Int) {
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_holder,
-                        DetailMovieFragment.getiInstance(id), Const.DETAIL_MOVIE_FRAGMENT)
-                .addToBackStack(null).commit()
+            .replace(
+                R.id.fragment_holder,
+                DetailMovieFragment.getiInstance(id), Const.DETAIL_MOVIE_FRAGMENT
+            )
+            .addToBackStack(null).commit()
     }
 
     override fun setConnectionErrorFragment() {
         fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)?.let {
             fragmentManager.beginTransaction()
-                    .remove(it)
-                    .replace(
-                            R.id.fragment_holder,
-                            fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!, Const.CONNECTION_ERROR_FRAGMENT
-                    )
-                    .addToBackStack(null)
-                    .commit()
+                .remove(it)
+                .replace(
+                    R.id.fragment_holder,
+                    fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!,
+                    Const.CONNECTION_ERROR_FRAGMENT
+                )
+                .addToBackStack(null)
+                .commit()
         }
     }
 
