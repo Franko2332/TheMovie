@@ -1,9 +1,7 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-parcelize'
-}
-
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 android {
 
@@ -46,6 +44,7 @@ android {
 }
 
 dependencies {
+    kapt "com.android.databinding:compiler:3.0.1"
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation "androidx.fragment:fragment-ktx:1.4.0"

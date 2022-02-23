@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.gb.themovie.databinding.FragmentConnectionErrorBinding
 import ru.gb.themovie.model.AppState
+import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
 import ru.gb.themovie.viewmodel.MainViewModel
 
 

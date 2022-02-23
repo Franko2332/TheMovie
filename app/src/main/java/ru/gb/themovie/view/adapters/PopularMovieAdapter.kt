@@ -1,4 +1,4 @@
-package ru.gb.themovie.view
+package ru.gb.themovie.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View

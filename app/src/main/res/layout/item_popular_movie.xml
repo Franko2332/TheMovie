@@ -1,3 +1,9 @@
+<layout>
+    <data>
+        <variable
+            name="itemViewModel"
+            type="ru.gb.themovie.viewmodel.databinding.ItemPopularMovieViewModel" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -8,21 +14,21 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_popular_in_cinema"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/item_popular_movie_layout_margin"
-            card_view:cardCornerRadius="@dimen/item_popular_movie_corner_radius"
-            card_view:cardElevation="@dimen/item_popular_movie_card_elevation">
-
-            <ImageView
-                android:id="@+id/image_view_popular_movie"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_popular_in_cinema"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/app_name" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="@dimen/item_popular_movie_layout_margin"
+                card_view:cardCornerRadius="@dimen/item_popular_movie_corner_radius"
+                card_view:cardElevation="@dimen/item_popular_movie_card_elevation">
+
+                <ImageView
+                    android:id="@+id/image_view_popular_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@{itemViewModel.movie.movieIcon}"
+                    android:contentDescription="@string/app_name" />
+            </androidx.cardview.widget.CardView>
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
@@ -36,12 +42,15 @@
         card_view:cardElevation="@dimen/item_popular_movie_card_elevation">
 
         <TextView
+            app:backgroundResource = "@{itemViewModel.colorId}"
             android:id="@+id/text_view_movie_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed_bold"
             android:paddingStart="@dimen/item_popular_movie_rate_padding_start"
+            android:text="@{itemViewModel.movie.stringRating}"
             tools:ignore="RtlSymmetry" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

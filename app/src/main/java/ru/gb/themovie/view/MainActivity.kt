@@ -9,9 +9,11 @@ import com.google.android.material.navigation.NavigationBarView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
+import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
+import ru.gb.themovie.view.callbacks.DetailMovieFragmentCallback
 
 
-class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
+class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
     ConnectionErrorFragmentCallback, DetailMovieFragmentCallback {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     }
 
     private fun setSearchFragment() {
+        var map: MutableMap<String, Int>? = HashMap<String, Int> ()
         fragmentsMap.get(Const.SEARCH_FRAGMENT)?.let {
             fragmentManager.beginTransaction().replace(
                 R.id.fragment_holder,

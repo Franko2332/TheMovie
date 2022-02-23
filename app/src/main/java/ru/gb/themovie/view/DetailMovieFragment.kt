@@ -64,19 +64,15 @@ class DetailMovieFragment : Fragment() {
         super.onDestroy()
         Log.e(Const.DETAIL_MOVIE_FRAGMENT, "destroy")
         _binding = null
-        viewModel
     }
 
     @SuppressLint("SetTextI18n")
     private fun render(it: AppState) {
         when (it) {
             is AppState.SuccessDetailMovie -> {
-                binding.fragmentDetailMovieIconImageView.setBackgroundDrawable(it.movie!!.movieIcon)
-                binding.textViewMovieName.text = it.movie!!.movieName
-                binding.textViewMovieShortDescription.text =
-                    it.movie!!.movieGenr + "-" + it.movie!!.movieDuration
-                binding.textViewMovieDescription.text = it.movie!!.movieDescription
+                binding.movie = it.movie
             }
         }
+
     }
 }
