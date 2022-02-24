@@ -2,18 +2,24 @@ package ru.gb.themovie.model
 
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import androidx.databinding.Bindable
+import kotlinx.parcelize.Parcelize
 import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.IgnoredOnParcel
 
 
 @Parcelize
 data class Movie(val movieIcon: @RawValue Drawable,
-                 val movieName: String,
+                val movieName: String,
                  val movieGenr: String,
                  val movieId: Int = 0):Parcelable {
     var rating: Int = 0
     var movieDescription: String = ""
     var movieDuration: String = ""
+    var stringRating: String = ""
+    get() {
+        return rating.toString()
+    }
 
     constructor(
             _movieIcon: Drawable,
@@ -35,5 +41,7 @@ data class Movie(val movieIcon: @RawValue Drawable,
         movieDescription = _movieDescription
         movieDuration = _movieDuration
     }
+
+    public fun getShortDescription(): String  = movieGenr + "-" +movieDuration
 
 }

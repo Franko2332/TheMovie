@@ -19,16 +19,8 @@ class MainViewModel(private val liveData: MutableLiveData<AppState> = MutableLiv
         return liveData
     }
 
-    private fun loadMovies() {
-//        Log.i("VM", "from view model")
-//        var random :  Random = Random
-//        val randomInt = random.nextInt(2)
-//        if (randomInt == 1) {
-            liveData.postValue(AppState.Success(ArrayList(), ArrayList(), repo))
-//        } else if (randomInt == 0) {
-//            liveData.postValue(AppState.Error())
-//        }
-    }
+    private fun loadMovies() = liveData.postValue(AppState.Success(ArrayList(), ArrayList(), repo))
+
 
 
 }
