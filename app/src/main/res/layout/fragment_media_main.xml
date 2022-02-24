@@ -48,7 +48,7 @@
                     android:textSize="@dimen/subtitle_text_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:itemsViewModel="@{viewModel.items}"
+                    app:itemsViewModel="@{viewModel.popularMovieData}"
                     android:id="@+id/recycler_popular_in_cinema"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

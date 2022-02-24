@@ -23,7 +23,7 @@ import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 import java.io.Serializable
 
-class MainFragment : Fragment(),BindableRecyclerViewAdapter.onItemClickListener, Serializable {
+class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener, Serializable {
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private var popularMovieViewModel: PopularMovieViewModel? = null
@@ -32,50 +32,60 @@ class MainFragment : Fragment(),BindableRecyclerViewAdapter.onItemClickListener,
     private var adapterInCinema: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
     private var adapterForTvMovie: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
 
-    override fun onResume() {
-        super.onResume()
-        adapterInCinema = binding.recyclerPopularInCinema!!.adapter as BindableRecyclerViewAdapter
-        adapterInCinema.setOnItemClickListener(this)
-        adapterForTvMovie = binding.recyclerPopularOnTv!!.adapter as BindableRecyclerViewAdapter
-        adapterForTvMovie.setOnItemClickListener(this)
-    }
-
     override fun onAttach(context: Context) {
         errorFragmentCallbackController = requireActivity() as MainActivity
         detailMovieFragmentCallbackController = requireActivity() as MainActivity
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentMediaMainBinding.inflate(inflater, container, false)
-        _binding!!.lifecycleOwner = requireActivity()
         popularMovieViewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
-        _binding!!.viewModel = popularMovieViewModel
+        _binding?.let {
+            it.lifecycleOwner = requireActivity()
+            it.viewModel = popularMovieViewModel
+        }
         return binding.root
     }
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
     }
 
+
+    override fun onResume() {
+        binding.recyclerPopularInCinema.adapter?.let {
+            adapterInCinema = it as BindableRecyclerViewAdapter
+            adapterInCinema.setOnItemClickListener(this)
+        }
+        binding.recyclerPopularOnTv.adapter?.let {
+            adapterForTvMovie = it as BindableRecyclerViewAdapter
+            adapterForTvMovie.setOnItemClickListener(this)
+        }
+        super.onResume()
+    }
+
     private fun init() {
-        binding.recyclerPopularInCinema.layoutManager =LinearLayoutManager(requireContext(),
-                 LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerPopularOnTv.layoutManager = LinearLayoutManager(requireContext(),
-                    LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerPopularInCinema.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false
+        )
+        binding.recyclerPopularOnTv.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false
+        )
     }
 
     companion object {
         var adapter: BindableRecyclerViewAdapter? = null
-        get() = field
+            get() = field
+
         @JvmStatic
         @BindingAdapter("app:itemsViewModel")
         fun bindItemViewModels(recyclerView: RecyclerView, itemViewModels: List<ItemViewModel>?) {
-            Log.e("bindItems", "bind")
             adapter = getOrCreateAdapter(recyclerView)
             itemViewModels?.let { adapter?.updateItems(it) }
         }

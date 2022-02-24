@@ -11,7 +11,6 @@ import ru.gb.themovie.model.Repository
 class PopularMovieViewModel(val repo: Repository) : ViewModel() {
     private var dataMovies = MutableLiveData<List<ItemViewModel>>()
     private val dataSerials = MutableLiveData<List<ItemViewModel>>()
-    private var items = mutableListOf<ItemViewModel>()
 
 
     init {
@@ -22,13 +21,11 @@ class PopularMovieViewModel(val repo: Repository) : ViewModel() {
 
     public fun getPopularSerialsData(): LiveData<List<ItemViewModel>> = dataSerials
 
-    public fun getItems(): List<ItemViewModel> = items
 
     private fun loadData() {
         viewModelScope.launch {
             val movies = repo.getMoviesFromLocalStorage()
             val serials = repo.getSerialsFromLocalStorage()
-            items = createViewDataMovies(movies) as MutableList<ItemViewModel>
             dataMovies.postValue(createViewDataMovies(movies))
             dataSerials.postValue(createViewDataSerials(serials))
         }

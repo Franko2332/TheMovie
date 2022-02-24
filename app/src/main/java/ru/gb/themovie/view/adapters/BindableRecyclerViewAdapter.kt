@@ -43,7 +43,7 @@ class BindableRecyclerViewAdapter: RecyclerView.Adapter<BindableRecyclerViewAdap
 
     override fun onBindViewHolder(holder: BindableViewHolder, position: Int) {
         holder.bind(itemViewModelData[position])
-        var imageView: ImageView = holder.binding.root.findViewById(R.id.image_view_popular_movie)
+        val imageView: ImageView = holder.binding.root.findViewById(R.id.image_view_popular_movie)
                 as ImageView
         imageView.setOnClickListener({listener?.let {it.movieItemOnClick(itemViewModelData[position].movieId)}})
     }
