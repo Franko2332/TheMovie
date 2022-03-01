@@ -1,6 +1,7 @@
 package ru.gb.themovie.viewmodel.databinding
 
 import androidx.annotation.LayoutRes
+import ru.gb.themovie.model.pojo.MovieModel
 
 interface ItemViewModel {
     @get:LayoutRes
@@ -8,6 +9,8 @@ interface ItemViewModel {
     val viewType: Int
     get() = 0
 
-    val movieId: Int
+    val movie: MovieModel
+
+    val movieId: Int?
     get() = 0
 }

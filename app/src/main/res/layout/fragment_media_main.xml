@@ -48,7 +48,7 @@
                     android:textSize="@dimen/subtitle_text_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:itemsViewModel="@{viewModel.popularMovieData}"
+                    app:itemsViewModel="@{viewModel.dataMoviesFromServer}"
                     android:id="@+id/recycler_popular_in_cinema"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:textSize="@dimen/subtitle_text_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    app:itemsViewModel="@{viewModel.popularSerialsData}"
+                    app:itemsViewModel="@{viewModel.dataOnTvMoviesFromServer}"
                     android:id="@+id/recycler_popular_on_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

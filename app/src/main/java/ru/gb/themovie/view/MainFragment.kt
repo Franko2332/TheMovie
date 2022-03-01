@@ -2,23 +2,18 @@ package ru.gb.themovie.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
-import ru.gb.themovie.model.*
+import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
-import ru.gb.themovie.view.adapters.PopularMovieAdapter
 import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
 import ru.gb.themovie.view.callbacks.DetailMovieFragmentCallback
-import ru.gb.themovie.viewmodel.MainViewModel
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 import java.io.Serializable

@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.209375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11775362318840579" />
+        <entry key="app/src/main/res/layout/fragment_connection_error.xml" value="0.12228260869565218" />
         <entry key="app/src/main/res/layout/fragment_media_main.xml" value="0.11775362318840579" />
         <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.11775362318840579" />
         <entry key="app/src/main/res/layout/item_popular_movie.xml" value="0.45" />

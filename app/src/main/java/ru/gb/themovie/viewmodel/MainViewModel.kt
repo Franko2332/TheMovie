@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.gb.themovie.model.AppState
-import ru.gb.themovie.model.Repository
-import ru.gb.themovie.model.RepositoryImpl
+import ru.gb.themovie.model.repository.Repository
+import ru.gb.themovie.model.repository.RepositoryImpl
 
 class MainViewModel(private val liveData: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
     private lateinit var repo: Repository
@@ -19,7 +19,7 @@ class MainViewModel(private val liveData: MutableLiveData<AppState> = MutableLiv
         return liveData
     }
 
-    private fun loadMovies() = liveData.postValue(AppState.Success(ArrayList(), ArrayList(), repo))
+    private fun loadMovies() = liveData.postValue(AppState.Success(repo))
 
 
 

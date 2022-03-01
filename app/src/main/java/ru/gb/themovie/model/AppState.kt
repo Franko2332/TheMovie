@@ -1,17 +1,13 @@
 package ru.gb.themovie.model
 
+import ru.gb.themovie.model.pojo.MovieDetailModel
+import ru.gb.themovie.model.pojo.MovieModel
+import ru.gb.themovie.model.repository.Repository
+
 sealed class AppState {
-    data class Success(var dataSetMovies: ArrayList<Movie> = ArrayList(),
-                       var dataSetSerials: ArrayList<Movie> = ArrayList(),
-                       val repo: Repository) : AppState(){
-        init {
-            dataSetMovies = repo.getMoviesFromLocalStorage()
-            dataSetSerials = repo.getSerialsFromLocalStorage()
-        }
-    }
-    data class SuccessDetailMovie(var movieId : Int, val repo: Repository) : AppState(){
-        var movie: Movie? = let { repo.getMovieById(movieId) }
-    }
+    data class Success(
+        val repo: Repository) : AppState()
+    data class SuccessDetailMovie(var movieDetail : MovieDetailModel) : AppState()
     class Error() : AppState()
     object Loading : AppState()
 }

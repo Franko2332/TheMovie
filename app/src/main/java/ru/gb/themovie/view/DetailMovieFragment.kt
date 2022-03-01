@@ -7,13 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import ru.gb.themovie.R
+import com.squareup.picasso.Picasso
+import ru.gb.themovie.BR
 import ru.gb.themovie.databinding.FragmentMovieDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
@@ -55,11 +53,6 @@ class DetailMovieFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Log.e(Const.DETAIL_MOVIE_FRAGMENT, "destroy")
@@ -70,7 +63,9 @@ class DetailMovieFragment : Fragment() {
     private fun render(it: AppState) {
         when (it) {
             is AppState.SuccessDetailMovie -> {
-                binding.movie = it.movie
+                binding.setVariable(BR.movieDetail, it.movieDetail)
+                Picasso.get().load(Const.IMAGE_URL+it.movieDetail.poster_path)
+                    .into(binding.fragmentDetailMovieIconImageView)
             }
         }
 

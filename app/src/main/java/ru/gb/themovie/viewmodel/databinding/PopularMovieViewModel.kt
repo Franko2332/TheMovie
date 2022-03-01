@@ -1,50 +1,76 @@
 package ru.gb.themovie.viewmodel.databinding
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.gb.themovie.BuildConfig
+import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Movie
-import ru.gb.themovie.model.Repository
+import ru.gb.themovie.model.pojo.ResultMovieList
+import ru.gb.themovie.model.repository.Repository
 
 class PopularMovieViewModel(val repo: Repository) : ViewModel() {
     private var dataMovies = MutableLiveData<List<ItemViewModel>>()
     private val dataSerials = MutableLiveData<List<ItemViewModel>>()
-
+    private val dataMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
+    private val dataOnTvMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
 
     init {
-        loadData()
+        loadDataFromServer()
     }
 
-    public fun getPopularMovieData(): LiveData<List<ItemViewModel>> = dataMovies
+    private fun loadDataFromServer() {
+       repo.getMoviesFromServer().enqueue(object : Callback<ResultMovieList> {
+            override fun onResponse(
+                call: Call<ResultMovieList>,
+                response: Response<ResultMovieList>
+            ) {
+                when (response.code()) {
+                    200 -> response?.body()?.let {
+                        dataMoviesFromServer.postValue(createViewDataMoviesFromServer(it))
+                    }
+                }
+            }
 
-    public fun getPopularSerialsData(): LiveData<List<ItemViewModel>> = dataSerials
+            override fun onFailure(call: Call<ResultMovieList>, t: Throwable) {
+                Log.e("ERROR RESPONSE", "ERROR RESPONSE")
+            }
+        })
 
+        repo.getOnTvPopularMovies().enqueue(object : Callback<ResultMovieList> {
+            override fun onResponse(
+                call: Call<ResultMovieList>,
+                response: Response<ResultMovieList>
+            ) {
+                when (response.code()) {
+                    200 -> response?.body()?.let {
+                        dataOnTvMoviesFromServer.postValue(createViewDataMoviesFromServer(it))
+                    }
+                }
+            }
 
-    private fun loadData() {
-        viewModelScope.launch {
-            val movies = repo.getMoviesFromLocalStorage()
-            val serials = repo.getSerialsFromLocalStorage()
-            dataMovies.postValue(createViewDataMovies(movies))
-            dataSerials.postValue(createViewDataSerials(serials))
-        }
+            override fun onFailure(call: Call<ResultMovieList>, t: Throwable) {
+                Log.e("ERROR RESPONSE", "ERROR RESPONSE")
+            }
+        })
     }
 
-    private fun createViewDataMovies(movies: List<Movie>): List<ItemViewModel> {
+    public fun getDataMoviesFromServer(): LiveData<List<ItemViewModel>> = dataMoviesFromServer
+
+    public fun getDataOnTvMoviesFromServer(): LiveData<List<ItemViewModel>> = dataOnTvMoviesFromServer
+
+
+    private fun createViewDataMoviesFromServer(resultMovieList: ResultMovieList): List<ItemViewModel> {
         val moviesViewData = mutableListOf<ItemViewModel>()
-        movies.forEach {
-            moviesViewData.add(ItemPopularMovieViewModel(it))
+        resultMovieList.results.forEach {
+            moviesViewData.add(ItemPopularMovieFromServerViewModel(it))
         }
         return moviesViewData
-    }
-
-    private fun createViewDataSerials(serials: List<Movie>): List<ItemViewModel> {
-        val serialsViewData = mutableListOf<ItemViewModel>()
-        serials.forEach {
-            serialsViewData.add(ItemPopularMovieViewModel(it))
-        }
-        return serialsViewData
     }
 
 

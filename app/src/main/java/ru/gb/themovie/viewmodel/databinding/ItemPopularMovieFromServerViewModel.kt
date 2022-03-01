@@ -1,22 +1,17 @@
 package ru.gb.themovie.viewmodel.databinding
 
-import android.content.Context
-import android.graphics.Color
-import android.os.Build
-import androidx.annotation.DisplayContext
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import ru.gb.themovie.R
 import ru.gb.themovie.model.ConstForItemsViewModel
-import ru.gb.themovie.model.Movie
+import ru.gb.themovie.model.pojo.MovieModel
 
-class ItemPopularMovieViewModel(val movie: Movie) : ItemViewModel {
-     var colorId: Int = R.color.gray
+class ItemPopularMovieFromServerViewModel(override val movie: MovieModel): ItemViewModel {
+    var colorId: Int = R.color.gray
         get() = field
+
     override val layoutId: Int = R.layout.item_popular_movie
     override val viewType: Int = ConstForItemsViewModel.POPULAR_MOVIE_IN_CINEMA
-    override val movieId: Int
-        get() = movie.movieId
+    override val movieId: Int?
+        get() = movie.id
 
     init {
         multRatingColor()
@@ -24,10 +19,10 @@ class ItemPopularMovieViewModel(val movie: Movie) : ItemViewModel {
 
     private fun multRatingColor() {
         when {
-            movie.rating > 70 -> {
+            movie.vote_average!! > 7 -> {
                 colorId = R.color.green
             }
-            movie.rating in 60..70 -> {
+            movie.vote_average >= 6 &&  movie.vote_average < 7 -> {
                 colorId = R.color.orange
             }
         }

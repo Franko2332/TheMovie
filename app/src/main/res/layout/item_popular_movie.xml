@@ -2,7 +2,7 @@
     <data>
         <variable
             name="itemViewModel"
-            type="ru.gb.themovie.viewmodel.databinding.ItemPopularMovieViewModel" />
+            type="ru.gb.themovie.viewmodel.databinding.ItemPopularMovieFromServerViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,9 +24,9 @@
 
                 <ImageView
                     android:id="@+id/image_view_popular_movie"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@{itemViewModel.movie.movieIcon}"
                     android:contentDescription="@string/app_name" />
             </androidx.cardview.widget.CardView>
     </FrameLayout>
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_condensed_bold"
             android:paddingStart="@dimen/item_popular_movie_rate_padding_start"
-            android:text="@{itemViewModel.movie.stringRating}"
+            android:text="@{itemViewModel.movie.vote_average.toString()}"
             tools:ignore="RtlSymmetry" />
     </androidx.cardview.widget.CardView>
 
