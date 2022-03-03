@@ -2,11 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="viewModel"
-        type="ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel" />
-</data>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,13 +50,29 @@
                     android:text="@string/in_cinema"
                     android:textSize="@dimen/subtitle_text_size" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    app:itemsViewModel="@{viewModel.dataMoviesFromServer}"
-                    android:id="@+id/recycler_popular_in_cinema"
+                <FrameLayout
+                    android:id="@+id/main_fragment_frame_layout_popular_in_cinema"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:reverseLayout="true" />
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_popular_in_cinema"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="invisible"
+                        app:itemsViewModel="@{viewModel.dataMoviesFromServer}"
+                        app:reverseLayout="true" />
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress_circular_popular_in_cinema"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:indeterminate="true"
+                        android:visibility="visible" />
+                </FrameLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -63,13 +82,28 @@
                     android:text="@string/on_tv"
                     android:textSize="@dimen/subtitle_text_size" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    app:itemsViewModel="@{viewModel.dataOnTvMoviesFromServer}"
-                    android:id="@+id/recycler_popular_on_tv"
+                <FrameLayout
+                    android:id="@+id/main_fragment_frame_layout_popular_on_tv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:reverseLayout="true" />
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="invisible"
+                        android:id="@+id/recycler_popular_on_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:itemsViewModel="@{viewModel.dataOnTvMoviesFromServer}"
+                        app:reverseLayout="true" />
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress_circular_popular_on_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:indeterminate="true"
+                        android:visibility="visible" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="match_parent"

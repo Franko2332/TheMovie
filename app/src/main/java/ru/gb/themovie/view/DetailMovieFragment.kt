@@ -38,7 +38,6 @@ class DetailMovieFragment : Fragment() {
         super.onAttach(context)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +46,6 @@ class DetailMovieFragment : Fragment() {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         val id = arguments?.getInt(Const.MOVIE_ID)
         id?.let {
-            Log.e("Move_id", id.toString())
             viewModel.getMovie(it).observe(viewLifecycleOwner, observer)
         }
         return binding.root

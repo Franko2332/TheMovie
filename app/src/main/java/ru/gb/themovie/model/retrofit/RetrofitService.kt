@@ -1,10 +1,12 @@
 package ru.gb.themovie.model.retrofit
 
-import android.util.Log
+import okhttp3.Dispatcher
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 import ru.gb.themovie.model.Const
+import java.util.concurrent.TimeUnit
+
 
 object RetrofitService {
     private var retrofit: Retrofit? = null

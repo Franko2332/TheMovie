@@ -47,7 +47,7 @@ class DetailMovieViewModel () : ViewModel() {
 
             override fun onFailure(call: Call<MovieDetailModel>, t: Throwable) {
                 Log.e("ERROR", "ERROR")
-               liveData.postValue(AppState.Error())
+               liveData.postValue(AppState.Error)
             }
         })
     }

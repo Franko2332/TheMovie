@@ -98,11 +98,9 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     override fun setConnectionErrorFragment() {
         fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)?.let {
             fragmentManager.beginTransaction()
-                .remove(it)
                 .replace(
                     R.id.fragment_holder,
-                    fragmentsMap.get(Const.CONNECTION_ERROR_FRAGMENT)!!,
-                    Const.CONNECTION_ERROR_FRAGMENT
+                    it, Const.CONNECTION_ERROR_FRAGMENT
                 )
                 .addToBackStack(null)
                 .commit()

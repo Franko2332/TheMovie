@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
+import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
 import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
@@ -21,6 +23,7 @@ import java.io.Serializable
 class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener, Serializable {
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
+    private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
     private var popularMovieViewModel: PopularMovieViewModel? = null
     private lateinit var errorFragmentCallbackController: ConnectionErrorFragmentCallback
     private lateinit var detailMovieFragmentCallbackController: DetailMovieFragmentCallback
@@ -38,18 +41,12 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMediaMainBinding.inflate(inflater, container, false)
-        popularMovieViewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
-        _binding?.let {
-            it.lifecycleOwner = requireActivity()
-            it.viewModel = popularMovieViewModel
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
     }
-
 
     override fun onResume() {
         binding.recyclerPopularInCinema.adapter?.let {
@@ -64,6 +61,12 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     private fun init() {
+        popularMovieViewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
+        _binding?.let {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = popularMovieViewModel
+        }
+        popularMovieViewModel!!.getAppStateLiveData().observe(viewLifecycleOwner, observer)
         binding.recyclerPopularInCinema.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
@@ -104,6 +107,26 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     override fun movieItemOnClick(movieId: Int): Boolean {
         detailMovieFragmentCallbackController.setDetailFragment(movieId)
         return true
+    }
+
+    private fun render(it: AppState) {
+        when (it) {
+            is AppState.Loading -> {
+                binding.recyclerPopularInCinema.visibility = View.INVISIBLE
+                binding.recyclerPopularOnTv.visibility = View.INVISIBLE
+                binding.progressCircularPopularInCinema.visibility = View.VISIBLE
+                binding.progressCircularPopularOnTv.visibility = View.VISIBLE
+            }
+            is AppState.Success -> {
+                binding.progressCircularPopularInCinema.visibility = View.GONE
+                binding.progressCircularPopularOnTv.visibility = View.GONE
+                binding.recyclerPopularInCinema.visibility = View.VISIBLE
+                binding.recyclerPopularOnTv.visibility = View.VISIBLE
+            }
+            is AppState.Error -> {
+                errorFragmentCallbackController.setConnectionErrorFragment()
+            }
+        }
     }
 
 }
