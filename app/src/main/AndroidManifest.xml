@@ -23,13 +23,6 @@
             android:name=".view.Service"
             android:exported="false"
             tools:ignore="Instantiatable" />
-        <receiver
-            android:name=".view.MainBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.AIRPLANE_MODE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

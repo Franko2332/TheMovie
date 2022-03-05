@@ -1,5 +1,8 @@
 package ru.gb.themovie.model.pojo
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 
 data class ResultMovieList(
@@ -7,4 +10,4 @@ data class ResultMovieList(
     val results: ArrayList<MovieModel>,
     val total_pages: Int,
     val total_results: Int
-)
+)  : Serializable

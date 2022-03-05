@@ -30,6 +30,7 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     }
 
     private fun init() {
+
         registerReceiver(mainBroadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         binding.root.bottom
         binding.bottomNavigationBar.setOnItemSelectedListener(this)
