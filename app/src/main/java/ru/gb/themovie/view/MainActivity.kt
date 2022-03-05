@@ -1,5 +1,8 @@
 package ru.gb.themovie.view
 
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -18,6 +21,7 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
+    private val mainBroadcastReceiver = MainBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,7 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     }
 
     private fun init() {
+        registerReceiver(mainBroadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         binding.root.bottom
         binding.bottomNavigationBar.setOnItemSelectedListener(this)
         fragmentsMap.apply {
