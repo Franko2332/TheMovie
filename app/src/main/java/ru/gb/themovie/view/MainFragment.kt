@@ -23,12 +23,11 @@ import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
 import ru.gb.themovie.view.callbacks.DetailMovieFragmentCallback
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
-import java.io.Serializable
 
 const val MOVIES_DATA_BROADCAST_EXTRA = "MOVIES_DATA_BROADCAST_EXTRA"
 const val TEST_BROADCAST_INTENT_FILTER = "TEST_BROADCAST_INTENT_FILTER"
 
-class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener, Serializable {
+class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener {
 
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
