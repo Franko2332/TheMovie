@@ -1,26 +1,35 @@
 package ru.gb.themovie.view
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
 import ru.gb.themovie.model.AppState
+import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
 import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
 import ru.gb.themovie.view.callbacks.DetailMovieFragmentCallback
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
-import java.io.Serializable
 
-class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener, Serializable {
+const val MOVIES_DATA_BROADCAST_EXTRA = "MOVIES_DATA_BROADCAST_EXTRA"
+const val TEST_BROADCAST_INTENT_FILTER = "TEST_BROADCAST_INTENT_FILTER"
+
+class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener {
+
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
@@ -30,11 +39,30 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     private var adapterInCinema: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
     private var adapterForTvMovie: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
 
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.getParcelableExtra<ResultMovieList>(MOVIES_DATA_BROADCAST_EXTRA)?.
+            let {
+                Log.e("DATA FROM BROADCAST", it.toString())
+            }
+        }
+
+    }
+
     override fun onAttach(context: Context) {
         errorFragmentCallbackController = requireActivity() as MainActivity
         detailMovieFragmentCallbackController = requireActivity() as MainActivity
         super.onAttach(context)
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.let {LocalBroadcastManager.getInstance(it)
+            .registerReceiver(broadcastReceiver,
+            IntentFilter(TEST_BROADCAST_INTENT_FILTER)) }
+        initService()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,6 +129,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
 
     override fun onDestroy() {
         super.onDestroy()
+        context?.unregisterReceiver(broadcastReceiver)
         _binding = null
     }
 
@@ -126,6 +155,14 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
             is AppState.Error -> {
                 errorFragmentCallbackController.setConnectionErrorFragment()
             }
+        }
+    }
+
+    private fun initService() {
+        requireContext()?.let {
+            it.startService(Intent(it, Service::class.java).apply {
+                putExtra(MAIN_SERVICE_INT_EXTRA, 1)
+            })
         }
     }
 
