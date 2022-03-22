@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
 import ru.gb.themovie.model.AppState
+import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
 import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
@@ -40,7 +41,8 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.getSerializableExtra(MOVIES_DATA_BROADCAST_EXTRA)?.let {
+            intent?.getParcelableExtra<ResultMovieList>(MOVIES_DATA_BROADCAST_EXTRA)?.
+            let {
                 Log.e("DATA FROM BROADCAST", it.toString())
             }
         }
