@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.themovie.databinding.FragmentMediaMainBinding
 import ru.gb.themovie.model.AppState
+import ru.gb.themovie.model.Const
 import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
@@ -30,6 +31,7 @@ const val TEST_BROADCAST_INTENT_FILTER = "TEST_BROADCAST_INTENT_FILTER"
 
 class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener {
 
+    private var adult: Boolean = false
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
@@ -89,7 +91,10 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     private fun init() {
+        requireActivity().let {adult = it.getPreferences(Context.MODE_PRIVATE)
+                .getBoolean(Const.ADULT, false)}
         popularMovieViewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
+        popularMovieViewModel!!.setAdult(adult)
         _binding?.let {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = popularMovieViewModel

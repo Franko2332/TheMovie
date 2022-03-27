@@ -12,6 +12,7 @@ package ru.gb.themovie.model
             val PARCELABLE_MOVIE = "PARCELABLE_MOVIE"
             val MOVIE_ID = "MOVIE_ID"
             val SERIAL_ID = "SERIAL_ID"
+            val ADULT = "ADULT"
         }
 
 }
