@@ -1,15 +1,13 @@
-package ru.gb.themovie.view
+package ru.gb.themovie.view.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.gb.themovie.databinding.FragmentProfileBinding
 import ru.gb.themovie.model.Const
-import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null

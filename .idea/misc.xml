@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/fragment_connection_error.xml" value="0.12228260869565218" />
         <entry key="app/src/main/res/layout/fragment_media_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.11775362318840579" />
+        <entry key="app/src/main/res/layout/fragment_movie_note.xml" value="0.11119554204660588" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.12318840579710146" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.12318840579710146" />
         <entry key="app/src/main/res/layout/item_popular_movie.xml" value="0.45" />

@@ -7,6 +7,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.Repository
 import ru.gb.themovie.model.repository.RepositoryImpl
+import ru.gb.themovie.view.fragments.MOVIES_DATA_BROADCAST_EXTRA
+import ru.gb.themovie.view.fragments.TEST_BROADCAST_INTENT_FILTER
 
 const val MAIN_SERVICE_INT_EXTRA = "MainServiceIntExtra"
 class Service(name: String = "MainService") : IntentService(name) {

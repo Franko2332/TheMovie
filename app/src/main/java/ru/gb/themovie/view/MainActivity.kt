@@ -1,6 +1,5 @@
 package ru.gb.themovie.view
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +11,12 @@ import com.google.android.material.navigation.NavigationBarView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
-import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
-import ru.gb.themovie.view.callbacks.DetailMovieFragmentCallback
+import ru.gb.themovie.view.callbacks.FragmentController
+import ru.gb.themovie.view.fragments.*
 
 
 class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
-    ConnectionErrorFragmentCallback, DetailMovieFragmentCallback {
+    FragmentController {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
@@ -31,7 +30,10 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
 
     private fun init() {
 
-        registerReceiver(mainBroadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            mainBroadcastReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         binding.root.bottom
         binding.bottomNavigationBar.setOnItemSelectedListener(this)
         fragmentsMap.apply {
@@ -69,7 +71,7 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     }
 
     private fun setSearchFragment() {
-        var map: MutableMap<String, Int>? = HashMap<String, Int> ()
+        var map: MutableMap<String, Int>? = HashMap<String, Int>()
         fragmentsMap.get(Const.SEARCH_FRAGMENT)?.let {
             fragmentManager.beginTransaction().replace(
                 R.id.fragment_holder,
@@ -115,6 +117,26 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
 
     override fun setFragmentAfterRefreshConnection() {
         setMainFragment()
+    }
+
+    override fun setMovieNoteFragment(title: String, movieId: Int) {
+        fragmentManager.beginTransaction().hide(
+            fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)!!
+        )
+            .add(R.id.fragment_holder, MovieNoteFragment.getInstance(title, movieId),
+                Const.MOVIE_NOTE_FRAGMENT)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun closeMovieNoteFragment() {
+        fragmentManager.beginTransaction()
+            .remove(fragmentManager.findFragmentByTag(Const.MOVIE_NOTE_FRAGMENT)!!)
+            .commit()
+        fragmentManager.popBackStack()
+        fragmentManager.beginTransaction()
+            .show(fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)!!)
+            .commit()
     }
 
 

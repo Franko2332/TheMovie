@@ -1,9 +1,8 @@
-package ru.gb.themovie.view
+package ru.gb.themovie.view.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,13 @@ import ru.gb.themovie.BR
 import ru.gb.themovie.databinding.FragmentMovieDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
+import ru.gb.themovie.view.MainActivity
+import ru.gb.themovie.view.callbacks.FragmentController
 import ru.gb.themovie.viewmodel.DetailMovieViewModel
 
 class DetailMovieFragment : Fragment() {
+    private var id: Int? = null
+    private  lateinit var movieNoteController: FragmentController
     private var _binding: FragmentMovieDetailBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
@@ -38,22 +41,32 @@ class DetailMovieFragment : Fragment() {
         super.onAttach(context)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        movieNoteController = requireActivity() as MainActivity
+        super.onActivityCreated(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        val id = arguments?.getInt(Const.MOVIE_ID)
+        id = arguments?.getInt(Const.MOVIE_ID)
         id?.let {
             viewModel.getMovie(it).observe(viewLifecycleOwner, observer)
         }
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        _binding?.fabMovieNote?.setOnClickListener { movieNoteController.setMovieNoteFragment(
+            _binding?.textViewMovieName?.text.toString(), id!!) }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        Log.e(Const.DETAIL_MOVIE_FRAGMENT, "destroy")
+        viewModel.clearLiveData()
         _binding = null
     }
 

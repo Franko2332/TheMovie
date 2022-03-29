@@ -1,11 +1,8 @@
 package ru.gb.themovie.view.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +10,6 @@ import com.squareup.picasso.Picasso
 import ru.gb.themovie.BR
 import ru.gb.themovie.R
 import ru.gb.themovie.model.Const
-import ru.gb.themovie.view.MainFragment
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 
 class BindableRecyclerViewAdapter :

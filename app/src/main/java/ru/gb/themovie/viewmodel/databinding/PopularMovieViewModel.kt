@@ -1,6 +1,5 @@
 package ru.gb.themovie.viewmodel.databinding
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +20,7 @@ class PopularMovieViewModel(val repo: Repository) : ViewModel() {
         loadDataFromServer()
     }
 
-    public fun setAdult(_adult: Boolean){
+    public fun setAdult(_adult: Boolean) {
         adult = _adult
         loadDataFromServer()
     }
@@ -83,7 +82,7 @@ class PopularMovieViewModel(val repo: Repository) : ViewModel() {
         val moviesViewData = mutableListOf<ItemViewModel>()
         if (!adult) {
             resultMovieList.results.forEach {
-                if (it.adult == false || it.adult!=null)
+                if (it.adult == false || it.adult == null)
                     moviesViewData.add(ItemPopularMovieFromServerViewModel(it))
             }
         } else

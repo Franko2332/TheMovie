@@ -52,5 +52,9 @@ class DetailMovieViewModel () : ViewModel() {
         })
     }
 
+    public fun clearLiveData(){
+        liveData.postValue(AppState.Loading)
+    }
+
 }
 

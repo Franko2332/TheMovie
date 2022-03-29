@@ -91,5 +91,14 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_movie_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_movie_note"
+        android:layout_marginBottom="65dp"
+        android:layout_marginEnd="20dp"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

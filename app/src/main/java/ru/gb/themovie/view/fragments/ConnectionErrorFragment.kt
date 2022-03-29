@@ -1,4 +1,4 @@
-package ru.gb.themovie.view
+package ru.gb.themovie.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,13 @@ import androidx.lifecycle.Observer
 import ru.gb.themovie.databinding.FragmentConnectionErrorBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.repository.RepositoryImpl
-import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
+import ru.gb.themovie.view.MainActivity
+import ru.gb.themovie.view.callbacks.FragmentController
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
 
 class ConnectionErrorFragment : Fragment() {
-    private lateinit var controller: ConnectionErrorFragmentCallback
+    private lateinit var controller: FragmentController
     private var viewModel: PopularMovieViewModel? = null
     private var _binding: FragmentConnectionErrorBinding? = null
     private val binding get() = _binding!!
