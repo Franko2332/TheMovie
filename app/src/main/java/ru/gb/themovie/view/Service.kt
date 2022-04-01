@@ -2,7 +2,6 @@ package ru.gb.themovie.view
 
 import android.app.IntentService
 import android.content.Intent
-import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.Repository

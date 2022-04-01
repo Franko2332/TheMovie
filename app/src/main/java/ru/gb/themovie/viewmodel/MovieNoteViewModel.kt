@@ -17,9 +17,14 @@ class MovieNoteViewModel(): ViewModel() {
     }
 
     public fun saveData(movieNoteEntity: MovieNoteEntity){
-        if(dataBase.movieNoteDao().isExists(movieNoteEntity.movieId)){
-            dataBase.movieNoteDao().update(movieNoteEntity)
-        } else dataBase.movieNoteDao().insert(movieNoteEntity)
+        var runnable = Runnable {
+            if(dataBase.movieNoteDao().isExists(movieNoteEntity.movieId)){
+                dataBase.movieNoteDao().update(movieNoteEntity)
+            } else dataBase.movieNoteDao().insert(movieNoteEntity)
+        }
+        var thread = Thread(runnable).apply { start() }
+
+
     }
 
     public fun clearLiveData(){
@@ -27,7 +32,10 @@ class MovieNoteViewModel(): ViewModel() {
     }
 
     private fun loadNote(movieId: Int){
-        movieNoteData.postValue(dataBase.movieNoteDao().getNoteByMovieId(movieId))
+        var runnable = Runnable {
+            movieNoteData.postValue(dataBase.movieNoteDao().getNoteByMovieId(movieId))
+        }
+        var thread = Thread(runnable).apply { start() }
     }
 
 
