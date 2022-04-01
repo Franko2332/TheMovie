@@ -120,23 +120,32 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
     }
 
     override fun setMovieNoteFragment(title: String, movieId: Int) {
-        fragmentManager.beginTransaction().hide(
-            fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)!!
-        )
-            .add(R.id.fragment_holder, MovieNoteFragment.getInstance(title, movieId),
-                Const.MOVIE_NOTE_FRAGMENT)
-            .addToBackStack(null)
-            .commit()
+        fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)?.let {
+            fragmentManager.beginTransaction()
+                .hide(it)
+                .add(
+                    R.id.fragment_holder, MovieNoteFragment.getInstance(title, movieId),
+                    Const.MOVIE_NOTE_FRAGMENT
+                )
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun closeMovieNoteFragment() {
-        fragmentManager.beginTransaction()
-            .remove(fragmentManager.findFragmentByTag(Const.MOVIE_NOTE_FRAGMENT)!!)
-            .commit()
-        fragmentManager.popBackStack()
-        fragmentManager.beginTransaction()
-            .show(fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)!!)
-            .commit()
+        fragmentManager.findFragmentByTag(Const.MOVIE_NOTE_FRAGMENT)?.let {
+            fragmentManager.beginTransaction()
+                .remove(it)
+                .commit()
+            fragmentManager.popBackStack()
+        }
+        fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)?.let {
+            fragmentManager
+                .beginTransaction()
+                .show(it)
+                .commit()
+        }
+
     }
 
 

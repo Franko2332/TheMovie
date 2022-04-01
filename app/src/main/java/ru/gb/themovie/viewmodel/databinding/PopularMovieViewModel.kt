@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.gb.themovie.App
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.Repository
+import ru.gb.themovie.model.room.MovieDataBase
+import ru.gb.themovie.model.room.MovieEntity
 
 class PopularMovieViewModel(val repo: Repository) : ViewModel() {
+    private var dataBase: MovieDataBase = App.getMovieDatabase()
     private val dataMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
     private val dataOnTvMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
     private val appStateLiveData = MutableLiveData<AppState>()
@@ -35,6 +39,7 @@ class PopularMovieViewModel(val repo: Repository) : ViewModel() {
                 when (response.code()) {
                     200 -> {
                         response?.body()?.let {
+                            saveMoviesToDatabase(it)
                             dataMoviesFromServer.postValue(createViewDataMoviesFromServer(it))
                             appStateLiveData.postValue(AppState.Success)
                         }
@@ -92,5 +97,25 @@ class PopularMovieViewModel(val repo: Repository) : ViewModel() {
         return moviesViewData
     }
 
+    private fun saveMoviesToDatabase(resultMovieList: ResultMovieList) {
+
+        resultMovieList.results.forEach {
+            if (dataBase.movieDao().isExists(it.id!!)) {
+                dataBase.movieDao().update(
+                    MovieEntity(
+                        it.id!!, it.title!!, it.overview!!, it.release_date!!,
+                        it.poster_path!!
+                    )
+                )
+            } else {
+                dataBase.movieDao().insert(
+                    MovieEntity(
+                        it.id!!, it.title!!, it.overview!!, it.release_date!!,
+                        it.poster_path!!
+                    )
+                )
+            }
+        }
+    }
 
 }

@@ -14,8 +14,6 @@ interface MovieNoteDao {
     @Query("SELECT EXISTS (SELECT * FROM MovieNoteEntity WHERE movieId = :movieId)")
     fun isExists(movieId: Int): Boolean
 
-
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entity: MovieNoteEntity)
 

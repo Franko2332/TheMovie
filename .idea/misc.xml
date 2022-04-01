@@ -4,6 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.209375" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_baseline_done_24.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_download_placeholder.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_error_placeholder.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_main.xml" value="0.1385" />
+        <entry key="app/src/main/res/drawable/ic_movie_note.xml" value="0.1385" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11775362318840579" />
         <entry key="app/src/main/res/layout/fragment_connection_error.xml" value="0.12228260869565218" />
         <entry key="app/src/main/res/layout/fragment_media_main.xml" value="0.25" />

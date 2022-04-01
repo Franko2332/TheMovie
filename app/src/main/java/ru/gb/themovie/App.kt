@@ -3,7 +3,6 @@ package ru.gb.themovie
 import android.app.Application
 import androidx.room.Room
 import ru.gb.themovie.model.room.MovieDataBase
-import ru.gb.themovie.model.room.MovieNoteDao
 
 class App : Application() {
     override fun onCreate() {

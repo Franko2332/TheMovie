@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import ru.gb.themovie.BR
+import ru.gb.themovie.R
 import ru.gb.themovie.databinding.FragmentMovieDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
@@ -76,9 +77,9 @@ class DetailMovieFragment : Fragment() {
             is AppState.SuccessDetailMovie -> {
                 binding.setVariable(BR.movieDetail, it.movieDetail)
                 Picasso.get().load(Const.IMAGE_URL+it.movieDetail.poster_path)
+                    .placeholder(R.drawable.ic_download_placeholder)
                     .into(binding.fragmentDetailMovieIconImageView)
             }
         }
-
     }
 }
