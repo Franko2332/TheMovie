@@ -24,7 +24,7 @@ import ru.gb.themovie.view.MAIN_SERVICE_INT_EXTRA
 import ru.gb.themovie.view.MainActivity
 import ru.gb.themovie.view.Service
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
-import ru.gb.themovie.view.callbacks.FragmentController
+import ru.gb.themovie.view.callbacks.FragmentsCallbacks
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
@@ -37,15 +37,14 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     private var _binding: FragmentMediaMainBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
-    private var popularMovieViewModel: PopularMovieViewModel? = null
-    private lateinit var fragmentController: FragmentController
+    private val popularMovieViewModel = PopularMovieViewModel()
+    private lateinit var fragmentsCallbacks: FragmentsCallbacks
     private var adapterInCinema: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
     private var adapterForTvMovie: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.getParcelableExtra<ResultMovieList>(MOVIES_DATA_BROADCAST_EXTRA)?.
-            let {
+            intent?.getParcelableExtra<ResultMovieList>(MOVIES_DATA_BROADCAST_EXTRA)?.let {
                 Log.e("DATA FROM BROADCAST", it.toString())
             }
         }
@@ -53,15 +52,20 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     override fun onAttach(context: Context) {
-        fragmentController = requireActivity() as MainActivity
+        fragmentsCallbacks = requireActivity() as MainActivity
+
         super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        context?.let {LocalBroadcastManager.getInstance(it)
-            .registerReceiver(broadcastReceiver,
-            IntentFilter(TEST_BROADCAST_INTENT_FILTER)) }
+        context?.let {
+            LocalBroadcastManager.getInstance(it)
+                .registerReceiver(
+                    broadcastReceiver,
+                    IntentFilter(TEST_BROADCAST_INTENT_FILTER)
+                )
+        }
         initService()
     }
 
@@ -91,15 +95,18 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     private fun init() {
-        requireActivity().let {adult = it.getPreferences(Context.MODE_PRIVATE)
-                .getBoolean(Const.ADULT, false)}
-        popularMovieViewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
-        popularMovieViewModel!!.setAdult(adult)
-        _binding?.let {
-            it.lifecycleOwner = viewLifecycleOwner
-            it.viewModel = popularMovieViewModel
+        requireActivity().let {
+            adult = it.getPreferences(Context.MODE_PRIVATE)
+                .getBoolean(Const.ADULT, false)
         }
-        popularMovieViewModel!!.getAppStateLiveData().observe(viewLifecycleOwner, observer)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = popularMovieViewModel
+        }
+        popularMovieViewModel.apply {
+            setAdult(adult)
+            getAppStateLiveData().observe(viewLifecycleOwner, observer)
+        }
         binding.recyclerPopularInCinema.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
@@ -121,6 +128,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
             itemViewModels?.let { adapter?.updateItems(it) }
         }
 
+
         private fun getOrCreateAdapter(recyclerView: RecyclerView): BindableRecyclerViewAdapter {
             return if (recyclerView.adapter != null && recyclerView.adapter is BindableRecyclerViewAdapter) {
                 recyclerView.adapter as BindableRecyclerViewAdapter
@@ -132,6 +140,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
         }
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         context?.unregisterReceiver(broadcastReceiver)
@@ -139,7 +148,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     override fun movieItemOnClick(movieId: Int): Boolean {
-        fragmentController.setDetailFragment(movieId)
+        fragmentsCallbacks.setDetailFragment(movieId)
         return true
     }
 
@@ -158,14 +167,14 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
                 binding.recyclerPopularOnTv.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                fragmentController.setConnectionErrorFragment()
+                fragmentsCallbacks.setConnectionErrorFragment()
             }
         }
     }
 
     private fun initService() {
-        requireContext()?.let {
-            it.startService(Intent(it, Service::class.java).apply {
+        requireContext().apply {
+            startService(Intent(this, Service::class.java).apply {
                 putExtra(MAIN_SERVICE_INT_EXTRA, 1)
             })
         }

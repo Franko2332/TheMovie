@@ -8,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import ru.gb.themovie.databinding.FragmentConnectionErrorBinding
 import ru.gb.themovie.model.AppState
-import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.MainActivity
-import ru.gb.themovie.view.callbacks.FragmentController
+import ru.gb.themovie.view.callbacks.FragmentsCallbacks
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
 
 class ConnectionErrorFragment : Fragment() {
-    private lateinit var controller: FragmentController
+    private lateinit var controller: FragmentsCallbacks
     private var viewModel: PopularMovieViewModel? = null
     private var _binding: FragmentConnectionErrorBinding? = null
     private val binding get() = _binding!!
@@ -29,7 +28,7 @@ class ConnectionErrorFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentConnectionErrorBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -37,10 +36,10 @@ class ConnectionErrorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val observer = Observer<AppState> { ok(it) }
-        viewModel = PopularMovieViewModel(repo = RepositoryImpl(requireContext()))
-        viewModel?.let { it.getAppStateLiveData().observe(viewLifecycleOwner, observer) }
-        binding.refreshButton.setOnClickListener { viewModel?.let { it.getAppStateLiveData() } }
-    }
+        viewModel = PopularMovieViewModel().apply {
+            getAppStateLiveData().observe(viewLifecycleOwner, observer)
+            binding.refreshButton.setOnClickListener { getAppStateLiveData() } }
+        }
 
     private fun ok(it: AppState) {
         when (it) {

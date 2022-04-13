@@ -9,12 +9,14 @@ package ru.gb.themovie.model
             val PROFILE_FRAGMENT = "PROFILE_FRAGMENT"
             val CONNECTION_ERROR_FRAGMENT = "CONNECTION_ERROR_FRAGMENT"
             val DETAIL_MOVIE_FRAGMENT = "DETAIL_MOVIE_FRAGMENT"
+            val DETAIL_PERSON_FRAGMENT = "DETAIL_PERSON_FRAGMENT"
             val MOVIE_NOTE_FRAGMENT = "MOVIE_NOTE_FRAGMENT"
             val PARCELABLE_MOVIE = "PARCELABLE_MOVIE"
             val MOVIE_ID = "MOVIE_ID"
             val SERIAL_ID = "SERIAL_ID"
             val ADULT = "ADULT"
             val MOVIE_TITLE = "MOVIE_TITLE"
+            val PERSON_ID = "PERSON_ID"
         }
 
 }

@@ -11,12 +11,12 @@ import com.google.android.material.navigation.NavigationBarView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
-import ru.gb.themovie.view.callbacks.FragmentController
+import ru.gb.themovie.view.callbacks.FragmentsCallbacks
 import ru.gb.themovie.view.fragments.*
 
 
 class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
-    FragmentController {
+    FragmentsCallbacks {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
@@ -34,7 +34,6 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
             mainBroadcastReceiver,
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        binding.root.bottom
         binding.bottomNavigationBar.setOnItemSelectedListener(this)
         fragmentsMap.apply {
             put(Const.MAIN_FRAGMENT, MainFragment())
@@ -145,8 +144,18 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
                 .show(it)
                 .commit()
         }
-
     }
 
-
+    override fun setDetailPersonFragment(id: Int) {
+        fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)?.let {
+            fragmentManager.beginTransaction()
+                .hide(it)
+                .add(
+                    R.id.fragment_holder,
+                    DetailPersonFragment.getInstance(id), Const.DETAIL_PERSON_FRAGMENT
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+    }
 }

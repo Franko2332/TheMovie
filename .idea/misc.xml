@@ -13,13 +13,17 @@
         <entry key="app/src/main/res/drawable/ic_main.xml" value="0.1385" />
         <entry key="app/src/main/res/drawable/ic_movie_note.xml" value="0.1385" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11775362318840579" />
+        <entry key="app/src/main/res/layout/fragment_actor_detail.xml" value="0.1068840579710145" />
         <entry key="app/src/main/res/layout/fragment_connection_error.xml" value="0.12228260869565218" />
         <entry key="app/src/main/res/layout/fragment_media_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.11775362318840579" />
+        <entry key="app/src/main/res/layout/fragment_movie_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_movie_note.xml" value="0.11119554204660588" />
+        <entry key="app/src/main/res/layout/fragment_person_detail.xml" value="0.1068840579710145" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.12318840579710146" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.12318840579710146" />
-        <entry key="app/src/main/res/layout/item_popular_movie.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_movie_actors.xml" value="0.36486486486486486" />
+        <entry key="app/src/main/res/layout/item_popular_movie.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/bottom_navigation_items.xml" value="0.20260416666666667" />
       </map>
     </option>
   </component>

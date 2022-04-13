@@ -1,7 +1,6 @@
 package ru.gb.themovie.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,12 @@ import ru.gb.themovie.databinding.FragmentMovieNoteBinding
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.model.room.MovieNoteEntity
 import ru.gb.themovie.view.MainActivity
-import ru.gb.themovie.view.callbacks.FragmentController
+import ru.gb.themovie.view.callbacks.FragmentsCallbacks
 import ru.gb.themovie.viewmodel.MovieNoteViewModel
 
 class MovieNoteFragment : Fragment() {
     private var _id: Int? = null
-    private lateinit var closeMovieNoteFragmentController: FragmentController
+    private lateinit var closeMovieNoteFragmentsCallbacks: FragmentsCallbacks
     private var _binding: FragmentMovieNoteBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<MovieNoteEntity> by lazy {
@@ -39,7 +38,7 @@ class MovieNoteFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        closeMovieNoteFragmentController = requireActivity() as MainActivity
+        closeMovieNoteFragmentsCallbacks = requireActivity() as MainActivity
         super.onActivityCreated(savedInstanceState)
     }
 
@@ -53,21 +52,19 @@ class MovieNoteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding?.titleMovieNote.let {
-            it?.text = requireArguments().getString(Const.MOVIE_TITLE).toString()
-        }
+        binding.titleMovieNote.text = requireArguments().getString(Const.MOVIE_TITLE).toString()
         requireArguments().get(Const.MOVIE_ID).let {
             _id = it as Int
             viewModel.getData(it).observe(viewLifecycleOwner, observer)
         }
-        _binding!!.movieNoteSaveImageView.setOnClickListener {
+        binding.movieNoteSaveImageView.setOnClickListener {
             viewModel.saveData(
                 MovieNoteEntity(
                     _id!!,
                     _binding!!.movieNoteEditText.text.toString()
                 )
             )
-            closeMovieNoteFragmentController.closeMovieNoteFragment()
+            closeMovieNoteFragmentsCallbacks.closeMovieNoteFragment()
         }
     }
 
@@ -78,8 +75,8 @@ class MovieNoteFragment : Fragment() {
     }
 
     private fun render(entity: MovieNoteEntity?) {
-        if (entity != null) {
-            binding!!.movieNoteEditText.setText(entity.note)
+        entity?.let {
+            binding.movieNoteEditText.setText(it.note)
         }
     }
 

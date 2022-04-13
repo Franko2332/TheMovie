@@ -7,37 +7,38 @@ import ru.gb.themovie.model.room.MovieDataBase
 
 import ru.gb.themovie.model.room.MovieNoteEntity
 
-class MovieNoteViewModel(): ViewModel() {
+class MovieNoteViewModel : ViewModel() {
     private var dataBase: MovieDataBase = App.getMovieDatabase()
     private var movieNoteData: MutableLiveData<MovieNoteEntity> = MutableLiveData()
 
-    public fun getData(movieId: Int): MutableLiveData<MovieNoteEntity>{
+    fun getData(movieId: Int): MutableLiveData<MovieNoteEntity> {
         loadNote(movieId)
         return movieNoteData
     }
 
-    public fun saveData(movieNoteEntity: MovieNoteEntity){
-        var runnable = Runnable {
-            if(dataBase.movieNoteDao().isExists(movieNoteEntity.movieId)){
+    fun saveData(movieNoteEntity: MovieNoteEntity) {
+        val runnable = Runnable {
+            if (dataBase.movieNoteDao().isExists(movieNoteEntity.movieId)) {
                 dataBase.movieNoteDao().update(movieNoteEntity)
             } else dataBase.movieNoteDao().insert(movieNoteEntity)
         }
-        var thread = Thread(runnable).apply { start() }
+        val thread = Thread(runnable)
+        thread.start()
 
 
     }
 
-    public fun clearLiveData(){
+    fun clearLiveData() {
         movieNoteData.postValue(MovieNoteEntity(0, ""))
     }
 
-    private fun loadNote(movieId: Int){
-        var runnable = Runnable {
+    private fun loadNote(movieId: Int) {
+        val runnable = Runnable {
             movieNoteData.postValue(dataBase.movieNoteDao().getNoteByMovieId(movieId))
         }
-        var thread = Thread(runnable).apply { start() }
+        val thread = Thread(runnable)
+        thread.start()
     }
-
 
 
 }
