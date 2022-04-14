@@ -20,4 +20,4 @@ data class MovieModel(
     val video: Boolean?,
     val vote_average: Double?,
     val vote_count: Int?
-) : Serializable
+)

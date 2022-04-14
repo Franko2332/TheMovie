@@ -10,21 +10,23 @@ import ru.gb.themovie.App
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.pojo.ResultMovieList
 import ru.gb.themovie.model.repository.Repository
+import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.model.room.MovieDataBase
 import ru.gb.themovie.model.room.MovieEntity
 
-class PopularMovieViewModel(val repo: Repository) : ViewModel() {
+class PopularMovieViewModel() : ViewModel() {
     private var dataBase: MovieDataBase = App.getMovieDatabase()
     private val dataMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
     private val dataOnTvMoviesFromServer = MutableLiveData<List<ItemViewModel>>()
     private val appStateLiveData = MutableLiveData<AppState>()
     private var adult: Boolean = false
+    private val repo: Repository = RepositoryImpl()
 
     init {
         loadDataFromServer()
     }
 
-    public fun setAdult(_adult: Boolean) {
+    fun setAdult(_adult: Boolean) {
         adult = _adult
         loadDataFromServer()
     }

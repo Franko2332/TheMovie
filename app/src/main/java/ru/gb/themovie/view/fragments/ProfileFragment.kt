@@ -16,7 +16,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
         Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -28,18 +28,14 @@ class ProfileFragment : Fragment() {
         }
         binding.switchAdult.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
-                requireActivity().let {
-                    it.getPreferences(Context.MODE_PRIVATE).edit().putBoolean(Const.ADULT, true)
+                requireActivity().getPreferences(Context.MODE_PRIVATE).edit().putBoolean(Const.ADULT, true)
                         .apply()
-                }
             } else {
-                requireActivity().let {
-                    it.getPreferences(Context.MODE_PRIVATE).edit().putBoolean(Const.ADULT, false)
+                requireActivity().getPreferences(Context.MODE_PRIVATE).edit().putBoolean(Const.ADULT, false)
                         .apply()
                 }
             }
         }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

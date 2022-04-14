@@ -51,7 +51,8 @@ class BindableRecyclerViewAdapter :
             .placeholder(R.drawable.ic_download_placeholder)
             .error(R.drawable.ic_error_placeholder)
             .into(imageView)
-        imageView.setOnClickListener { listener?.let { it.movieItemOnClick(itemViewModelData[position].movieId!!) } }
+        imageView.setOnClickListener {
+            listener?.let { it.movieItemOnClick(itemViewModelData[position].movieId!!) } }
     }
 
     override fun getItemCount(): Int = itemViewModelData.size
