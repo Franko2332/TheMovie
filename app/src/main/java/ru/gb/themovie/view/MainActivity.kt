@@ -146,6 +146,14 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
         }
     }
 
+    override fun setPersonBirthInMapFragment(location: String) {
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_holder,
+                PersonBirthInMapFragment.getIntance(location), null)
+            .addToBackStack(null)
+            .commit()
+    }
+
     override fun setDetailPersonFragment(id: Int) {
         fragmentManager.findFragmentByTag(Const.DETAIL_MOVIE_FRAGMENT)?.let {
             fragmentManager.beginTransaction()

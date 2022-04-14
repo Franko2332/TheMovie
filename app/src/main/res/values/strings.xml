@@ -12,6 +12,6 @@
     <string name="refresh">Refresh</string>
     <string name="on_tv">on TV</string>
     <string name="_18plus">18+ content</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCf9aE_VhBDHOblxuPvUMuSTvG7W6ttcu4</string>
     <string name="actors">Актеры</string>
+    <string name="open_location_in_map">show in map</string>
 </resources>

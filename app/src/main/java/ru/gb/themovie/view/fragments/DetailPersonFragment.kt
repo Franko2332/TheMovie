@@ -13,10 +13,13 @@ import ru.gb.themovie.R
 import ru.gb.themovie.databinding.FragmentPersonDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
+import ru.gb.themovie.view.MainActivity
+import ru.gb.themovie.view.callbacks.FragmentsCallbacks
 import ru.gb.themovie.viewmodel.DetailPersonViewModel
 
 
 class DetailPersonFragment : Fragment() {
+    private lateinit var fragmentsCallbacksController: FragmentsCallbacks
     private var _binding: FragmentPersonDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailPersonViewModel by lazy {
@@ -35,6 +38,11 @@ class DetailPersonFragment : Fragment() {
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        fragmentsCallbacksController = requireActivity() as MainActivity
+        super.onActivityCreated(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +51,6 @@ class DetailPersonFragment : Fragment() {
         _binding = FragmentPersonDetailBinding.inflate(inflater, container, false)
         arguments?.let {
             viewModel.getData(it.getInt(Const.PERSON_ID)).observe(viewLifecycleOwner, observer)
-
         }
         return binding.root
     }
@@ -55,7 +62,10 @@ class DetailPersonFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.openLocationInMapButton.setOnClickListener {
+            fragmentsCallbacksController.setPersonBirthInMapFragment(
+                binding.textViewPlaceOfBirthFragmentPersonDetail.text.toString())
+        }
     }
 
     private fun render(state: AppState) {

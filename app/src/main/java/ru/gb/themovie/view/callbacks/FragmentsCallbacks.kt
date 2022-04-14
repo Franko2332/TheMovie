@@ -7,4 +7,5 @@ interface FragmentsCallbacks {
     fun setMovieNoteFragment(title: String, movieId: Int)
     fun setDetailPersonFragment(id: Int)
     fun closeMovieNoteFragment()
+    fun setPersonBirthInMapFragment(location: String)
 }

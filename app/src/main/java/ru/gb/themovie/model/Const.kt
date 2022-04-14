@@ -17,6 +17,7 @@ package ru.gb.themovie.model
             val ADULT = "ADULT"
             val MOVIE_TITLE = "MOVIE_TITLE"
             val PERSON_ID = "PERSON_ID"
+            val PERSON_BIRTH_LOCATION = "PERSON_BIRTH_LOCATION"
         }
 
 }
