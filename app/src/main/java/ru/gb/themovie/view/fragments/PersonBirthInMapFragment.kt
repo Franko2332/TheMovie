@@ -1,6 +1,5 @@
 package ru.gb.themovie.view.fragments
 
-import android.location.Address
 import android.location.Geocoder
 import androidx.fragment.app.Fragment
 
@@ -11,14 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import ru.gb.themovie.R
 import ru.gb.themovie.model.Const
-import java.io.IOException
 
 class PersonBirthInMapFragment : Fragment() {
 
