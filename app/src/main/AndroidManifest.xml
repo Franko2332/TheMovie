@@ -15,7 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheMovie">
-
+        <service android:name=".MyFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name= "com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
