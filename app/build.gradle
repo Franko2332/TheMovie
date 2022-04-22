@@ -1,3 +1,8 @@
+def keyStoreProperties = new Properties()
+InputStream fis = new FileInputStream(project.rootProject.file("keystore.properties"))
+keyStoreProperties.load(fis)
+fis.close()
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -39,16 +44,28 @@ android {
         dataBinding true
     }
 
+    signingConfigs {
+        release {
+            storeFile file('keystore')
+            storePassword keyStoreProperties['STORE_PASSWORD']
+            keyAlias keyStoreProperties['KEY_ALIAS']
+            keyPassword keyStoreProperties['KEY_PASSWORD']
+        }
+    }
 
     buildTypes {
+
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
         }
         debug {
             versionNameSuffix "-debug"
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
