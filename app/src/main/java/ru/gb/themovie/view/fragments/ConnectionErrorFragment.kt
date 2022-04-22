@@ -9,19 +9,21 @@ import androidx.lifecycle.Observer
 import ru.gb.themovie.databinding.FragmentConnectionErrorBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.view.MainActivity
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.FragmentAfterRefreshConnectionCallback
+import ru.gb.themovie.view.callbacks.PersonBirthInMapFragmentCallback
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
 
 class ConnectionErrorFragment : Fragment() {
-    private lateinit var controller: FragmentsCallbacks
+    private lateinit var personBirthInMapFragmentCallback: PersonBirthInMapFragmentCallback
+    private lateinit var afterRefreshConnectionCallback: FragmentAfterRefreshConnectionCallback
     private var viewModel: PopularMovieViewModel? = null
     private var _binding: FragmentConnectionErrorBinding? = null
     private val binding get() = _binding!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        controller = requireActivity() as MainActivity
+        personBirthInMapFragmentCallback = requireActivity() as MainActivity
     }
 
     override fun onCreateView(
@@ -44,7 +46,7 @@ class ConnectionErrorFragment : Fragment() {
     private fun ok(it: AppState) {
         when (it) {
             is AppState.Success -> {
-                controller.setFragmentAfterRefreshConnection()
+                afterRefreshConnectionCallback.setFragmentAfterRefreshConnection()
             }
         }
     }

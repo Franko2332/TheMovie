@@ -1,6 +1,5 @@
 package ru.gb.themovie.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,12 @@ import ru.gb.themovie.databinding.FragmentPersonDetailBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.view.MainActivity
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.PersonBirthInMapFragmentCallback
 import ru.gb.themovie.viewmodel.DetailPersonViewModel
 
 
 class DetailPersonFragment : Fragment() {
-    private lateinit var fragmentsCallbacksController: FragmentsCallbacks
+    private lateinit var fragmentsCallbacksController: PersonBirthInMapFragmentCallback
     private var _binding: FragmentPersonDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailPersonViewModel by lazy {
