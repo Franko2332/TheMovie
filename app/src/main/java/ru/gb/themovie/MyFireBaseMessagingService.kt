@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -15,7 +14,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     companion object {
         private const val PUSH_KEY_TITLE = "title"
         private const val PUSH_KEY_MESSAGE = "text"
-        private const val CHANNEL_ID = "chanel_id"
+        private const val CHANNEL_ID = "channel_id"
         private const val NOTIFICATION_ID = 37
 
     }
@@ -53,7 +52,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChanel(notificationManager: NotificationManager) {
         val name = "channel_name"
-        val descriptionText = "chamnel_description"
+        val descriptionText = "channel_description"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val chanel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText

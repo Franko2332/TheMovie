@@ -11,12 +11,15 @@ import com.google.android.material.navigation.NavigationBarView
 import ru.gb.themovie.R
 import ru.gb.themovie.databinding.ActivityMainBinding
 import ru.gb.themovie.model.Const
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.*
 import ru.gb.themovie.view.fragments.*
 
 
 class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedListener,
-    FragmentsCallbacks {
+    PersonBirthInMapFragmentCallback, ConnectionErrorFragmentCallback,
+    CloseMovieNoteFragmentCallback,
+    DetailFragmentCallback, DetailPersonFragmentCallback, FragmentAfterRefreshConnectionCallback,
+    MovieNoteFragmentCallback {
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var fragmentManager: FragmentManager
     private val fragmentsMap: HashMap<String, Fragment> = HashMap()
@@ -148,8 +151,10 @@ class MainActivity() : AppCompatActivity(), NavigationBarView.OnItemSelectedList
 
     override fun setPersonBirthInMapFragment(location: String) {
         fragmentManager.beginTransaction()
-            .replace(R.id.fragment_holder,
-                PersonBirthInMapFragment.getIntance(location), null)
+            .replace(
+                R.id.fragment_holder,
+                PersonBirthInMapFragment.getIntance(location), null
+            )
             .addToBackStack(null)
             .commit()
     }

@@ -11,12 +11,13 @@ import ru.gb.themovie.databinding.FragmentMovieNoteBinding
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.model.room.MovieNoteEntity
 import ru.gb.themovie.view.MainActivity
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.CloseMovieNoteFragmentCallback
+import ru.gb.themovie.view.callbacks.PersonBirthInMapFragmentCallback
 import ru.gb.themovie.viewmodel.MovieNoteViewModel
 
 class MovieNoteFragment : Fragment() {
     private var _id: Int? = null
-    private lateinit var closeMovieNoteFragmentsCallbacks: FragmentsCallbacks
+    private lateinit var closeMovieNoteFragmentsCallbacks: CloseMovieNoteFragmentCallback
     private var _binding: FragmentMovieNoteBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<MovieNoteEntity> by lazy {

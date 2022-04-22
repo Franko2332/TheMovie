@@ -8,6 +8,7 @@ import ru.gb.themovie.model.repository.Repository
 import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.fragments.MOVIES_DATA_BROADCAST_EXTRA
 import ru.gb.themovie.view.fragments.TEST_BROADCAST_INTENT_FILTER
+import java.net.ConnectException
 
 const val MAIN_SERVICE_INT_EXTRA = "MainServiceIntExtra"
 
@@ -29,18 +30,21 @@ class Service(name: String = "MainService") : IntentService(name) {
 
     private fun loadData() {
         val repo: Repository = RepositoryImpl()
-        val response = repo.getMoviesFromServer().execute()
+        try {
+            val response = repo.getMoviesFromServer().execute()
 
-        when (response.code()) {
-            200 -> {
-                val result = response.body() as ResultMovieList
-                Intent(TEST_BROADCAST_INTENT_FILTER)
-                    .apply {
-                        putExtra(MOVIES_DATA_BROADCAST_EXTRA, result)
-                        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(this)
-                    }
-
+            when (response.code()) {
+                200 -> {
+                    val result = response.body() as ResultMovieList
+                    Intent(TEST_BROADCAST_INTENT_FILTER)
+                        .apply {
+                            putExtra(MOVIES_DATA_BROADCAST_EXTRA, result)
+                            LocalBroadcastManager.getInstance(baseContext).sendBroadcast(this)
+                        }
+                }
             }
+        } catch (e: ConnectException){
+            e.printStackTrace()
         }
     }
 

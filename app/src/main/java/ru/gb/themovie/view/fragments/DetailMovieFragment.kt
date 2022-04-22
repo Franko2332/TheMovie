@@ -17,14 +17,15 @@ import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.view.MainActivity
 import ru.gb.themovie.view.adapters.MoviePersonsAdapter
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.*
 import ru.gb.themovie.viewmodel.DetailMovieViewModel
 
 class DetailMovieFragment : Fragment(), MoviePersonsAdapter.onItemClickListener {
     private var id: Int? = null
 
     private val _adapter = MoviePersonsAdapter()
-    private lateinit var callbacksController: FragmentsCallbacks
+    private lateinit var movieNoteFragmentCallback: MovieNoteFragmentCallback
+    private lateinit var detailPersonFragmentCallback: DetailPersonFragmentCallback
     private var _binding: FragmentMovieDetailBinding? = null
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
@@ -44,7 +45,8 @@ class DetailMovieFragment : Fragment(), MoviePersonsAdapter.onItemClickListener 
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        callbacksController = requireActivity() as MainActivity
+        movieNoteFragmentCallback = requireActivity() as MainActivity
+        detailPersonFragmentCallback = requireActivity() as MainActivity
         super.onActivityCreated(savedInstanceState)
     }
 
@@ -64,7 +66,7 @@ class DetailMovieFragment : Fragment(), MoviePersonsAdapter.onItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.fabMovieNote.setOnClickListener {
-            callbacksController.setMovieNoteFragment(
+            movieNoteFragmentCallback.setMovieNoteFragment(
                 _binding?.textViewMovieName?.text.toString(), id!!
             )
         }
@@ -103,6 +105,6 @@ class DetailMovieFragment : Fragment(), MoviePersonsAdapter.onItemClickListener 
     }
 
     override fun onItemClick(actorId: Int) {
-        callbacksController.setDetailPersonFragment(actorId)
+        detailPersonFragmentCallback.setDetailPersonFragment(actorId)
     }
 }

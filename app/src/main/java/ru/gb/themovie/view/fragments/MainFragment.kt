@@ -19,12 +19,13 @@ import ru.gb.themovie.databinding.FragmentMediaMainBinding
 import ru.gb.themovie.model.AppState
 import ru.gb.themovie.model.Const
 import ru.gb.themovie.model.pojo.ResultMovieList
-import ru.gb.themovie.model.repository.RepositoryImpl
 import ru.gb.themovie.view.MAIN_SERVICE_INT_EXTRA
 import ru.gb.themovie.view.MainActivity
 import ru.gb.themovie.view.Service
 import ru.gb.themovie.view.adapters.BindableRecyclerViewAdapter
-import ru.gb.themovie.view.callbacks.FragmentsCallbacks
+import ru.gb.themovie.view.callbacks.ConnectionErrorFragmentCallback
+import ru.gb.themovie.view.callbacks.DetailFragmentCallback
+import ru.gb.themovie.view.callbacks.PersonBirthInMapFragmentCallback
 import ru.gb.themovie.viewmodel.databinding.ItemViewModel
 import ru.gb.themovie.viewmodel.databinding.PopularMovieViewModel
 
@@ -38,7 +39,8 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     private val binding get() = _binding!!
     private val observer: Observer<AppState> by lazy { Observer<AppState> { state -> render(state) } }
     private val popularMovieViewModel = PopularMovieViewModel()
-    private lateinit var fragmentsCallbacks: FragmentsCallbacks
+    private lateinit var detailFragmentCallback: DetailFragmentCallback
+    private lateinit var connectionErrorFragmentCallback: ConnectionErrorFragmentCallback
     private var adapterInCinema: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
     private var adapterForTvMovie: BindableRecyclerViewAdapter = BindableRecyclerViewAdapter()
 
@@ -52,8 +54,8 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     override fun onAttach(context: Context) {
-        fragmentsCallbacks = requireActivity() as MainActivity
-
+        detailFragmentCallback = requireActivity() as MainActivity
+        connectionErrorFragmentCallback = requireActivity() as MainActivity
         super.onAttach(context)
     }
 
@@ -148,7 +150,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
     }
 
     override fun movieItemOnClick(movieId: Int): Boolean {
-        fragmentsCallbacks.setDetailFragment(movieId)
+        detailFragmentCallback.setDetailFragment(movieId)
         return true
     }
 
@@ -167,7 +169,7 @@ class MainFragment : Fragment(), BindableRecyclerViewAdapter.onItemClickListener
                 binding.recyclerPopularOnTv.visibility = View.VISIBLE
             }
             is AppState.Error -> {
-                fragmentsCallbacks.setConnectionErrorFragment()
+                connectionErrorFragmentCallback.setConnectionErrorFragment()
             }
         }
     }

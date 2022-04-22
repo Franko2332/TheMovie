@@ -1,3 +1,7 @@
+def keyStoreProperties = new Properties()
+InputStream fis = new FileInputStream(project.rootProject.file("keystore.properties"))
+keyStoreProperties.load(fis)
+fis.close()
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -26,7 +30,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes.each{
+    buildTypes.each {
         Properties properties = new Properties()
         InputStream is = new FileInputStream(project.rootProject.file("apikey.properties"))
         properties.load(is)
@@ -35,18 +39,33 @@ android {
         it.buildConfigField 'String', 'THE_MOVIE_API_KEY', apiKey
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
         dataBinding true
     }
 
-
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            storeFile file('keystore')
+            storePassword keyStoreProperties['STORE_PASSWORD']
+            keyAlias keyStoreProperties['KEY_ALIAS']
+            keyPassword keyStoreProperties['KEY_PASSWORD']
         }
     }
+
+    buildTypes {
+
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
+        }
+        debug {
+            versionNameSuffix "-debug"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -54,9 +73,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    flavorDimensions 'version'
+    productFlavors {
+        free {
+            dimension 'version'
+            versionNameSuffix '.free'
+        }
+        paid {
+            dimension 'version'
+            versionNameSuffix '.paid'
+        }
+    }
 }
-
-
 
 
 dependencies {
